@@ -17,7 +17,7 @@ classdef Cepstrum < handle
         FFTPoint    % FFTの際の次元数
         linearAmplitudedSpectral  % 振幅スペクトル(真数)
 
-        maxCepstrumPoint   % ケプストラムから抽出する次元の最大値
+        maxCepstrumDimension   % ケプストラムから抽出する次元の最大値
         threshold   % 有性か無性かを判定する閾値
 
         cepstrum    % ケプストラム
@@ -71,7 +71,7 @@ classdef Cepstrum < handle
 
             % ケプストラムの低次元の最大値と閾値を設定してケプストラムを計算する
             object.setCepstrum();
-            object.maxCepstrumPoint = maxCepstrumPoint;
+            object.maxCepstrumDimension = maxCepstrumPoint;
             object.threshold = threshold;
 
             % ケプストラムの頂点を計算して基本周波数と基本周期を計算する
@@ -128,8 +128,8 @@ classdef Cepstrum < handle
         end
 
         % ケプストラムの抽出する最大の次元数のセッター
-        function set.maxCepstrumPoint(object, maxCepstrumPoint)
-            object.maxCepstrumPoint = maxCepstrumPoint;
+        function set.maxCepstrumDimension(object, maxCepstrumPoint)
+            object.maxCepstrumDimension = maxCepstrumPoint;
         end
  
         % 有声か無声かを判定する為の閾値
@@ -210,8 +210,8 @@ classdef Cepstrum < handle
 
         % ケプストラムのピークポイントと最大値のセッター
         function setPeakPointAndMaxValueOfCepstrum(object)
-            [object.maxValueOfCepstrum, object.peakPointOfCepstrum] = max(object.cepstrum(object.maxCepstrumPoint : object.FFTPoint / 2));
-            object.peakPointOfCepstrum = object.peakPointOfCepstrum + object.maxCepstrumPoint - 1;
+            [object.maxValueOfCepstrum, object.peakPointOfCepstrum] = max(object.cepstrum(object.maxCepstrumDimension : object.FFTPoint / 2));
+            object.peakPointOfCepstrum = object.peakPointOfCepstrum + object.maxCepstrumDimension - 1;
             object.checkVoicedSpeechOrNot();
         end
 
@@ -228,7 +228,7 @@ classdef Cepstrum < handle
         % 低ケフレンシーのセッター
         function setLowQuefrency(object)
             object.lowQuefrency = object.cepstrum;    % low quefrency
-            object.lowQuefrency(object.maxCepstrumPoint + 1 : object.FFTPoint - object.maxCepstrumPoint) = 0;
+            object.lowQuefrency(object.maxCepstrumDimension + 1 : object.FFTPoint - object.maxCepstrumDimension) = 0;
         end
 
         % 真数振幅スペクトル包絡のセッター(ケプストラムから算出)
@@ -324,8 +324,8 @@ classdef Cepstrum < handle
         end
 
         % ケプストラムの抽出する最大の次元数のゲッター
-        function maxCepstrumPoint = get.maxCepstrumPoint(object)
-            maxCepstrumPoint = object.maxCepstrumPoint;
+        function maxCepstrumPoint = get.maxCepstrumDimension(object)
+            maxCepstrumPoint = object.maxCepstrumDimension;
         end
 
         % ケプストラムのピークポイントのゲッター
@@ -444,6 +444,45 @@ classdef Cepstrum < handle
         function clearEnviornments(object)
             clear variables;  % clear viriables
             clc % clear comand window
+        end
+
+        % ケプストラム分析に利用されたパラメータを表示するメソッド
+        function displayInformation(object)
+            fprintf("\noriginal signal path : %s\n", object.originalSignalPath);    % 開きたいデータのパス
+            fprintf("sampling frequency : %d [Hz]\n", object.samplingFrequency);    % サンプリング周波数
+            fprintf("data type : %s\n", object.dataType);   % 開きたい音声信号のデータ型
+            fprintf("original signal shape : (%d, %d)\n", size(object.originalSignal)); % 開いた音声信号
+    
+            fprintf("start point : %d\n", object.startPoint);   % 抽出を始めたい点
+            fprintf("continue time : %f [s]\n", object.continueTime);   % 抽出時間
+            fprintf("window size : %d\n", object.windowSize);   % ハミング窓の大きさ
+            fprintf("extracted signal shape : (%d, %d)\n", size(object.extractedSignal));   % 特定の範囲を抽出した音声信号
+    
+            fprintf("hamming window shape : (%d, %d)\n", size(object.hammingWindow));   % ハミング窓
+            fprintf("multipled signal shape : (%d, %d)\n", size(object.multipledSignal));   % 窓関数を乗じた音声信号
+    
+            fprintf("FFT Point : %d\n", object.FFTPoint);   % FFTの際の次元数
+            fprintf("linear amplituded spectral shape : (%d, %d)\n", size(object.linearAmplitudedSpectral));    % 振幅スペクトル(真数)
+    
+            fprintf("max cepstrum dimension : %d\n", object.maxCepstrumDimension);  % ケプストラムから抽出する次元の最大値
+            fprintf("threshold : %f\n", object.threshold);  % 有性か無性かを判定する閾値
+    
+            fprintf("cepstrum shape : (%d, %d)\n", size(object.cepstrum));  % ケプストラム
+            fprintf("peak point of cepstrum : %d\n", object.peakPointOfCepstrum);   % ケプストラムのピークポイント
+            fprintf("max value of cepstrum : %f\n", object.maxValueOfCepstrum); % ケプストラムのピークポイントの最大値
+    
+            fprintf("basic period : %f\n", object.basicPeriod); % 基本周期
+            fprintf("basic frequency : %f\n", object.basicFrequency);   % 基本周波数
+    
+            fprintf("low quefrency shape : (%d, %d)\n", size(object.lowQuefrency)); % ケプストラムの低次元成分(低ケフレンシー)
+            fprintf("linear amplituded spectral envelope shape : (%d, %d)\n", size(object.linearAmplitudedSpectralEnvelope));   % 真数の振幅スペクトル包絡
+            fprintf("impulse response of cepstrum shape : (%d, %d)\n", size(object.impulseResponseOfCepstrum)); % ケプストラムのインパルス応答
+    
+            fprintf("repeat number : %d\n", object.repeatNumber);   % 重畳加算する回数
+            fprintf("peak point of cepstrum gain : %f\n", object.peakPointOfCepstrumGain);  % 基本周期のゲイン
+            fprintf("synthesized signal shape : (%d, %d)\n", size(object.synthesizedSignal));   % ケプストラムのインパルス応答から重畳加算された音声信号
+    
+            fprintf("synthesized file path : %s\n", object.synthesizedFilePath);    % 合成された音声信号を保存先のパス
         end
     end
 end
