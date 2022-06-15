@@ -12,7 +12,7 @@ peakPointOfCepstrumGain = 0.5;    % 基本周期の間隔のゲイン
 synthesizedFilePath ="D:\名城大学\研究室\演習\data\halfPeriodSynthesizedSignal.raw";   % 合成した音声信号の保存先のパス
 
 %% 分析する為のオブジェクトを生成
-analysis = Analysis( ...
+cepstrum = Cepstrum( ...
     originalSignalPath, ...
     samplingFrequency, ...
     dataType, ...
@@ -31,9 +31,9 @@ row = 2;    % 行サイズ
 column = 1; % 列サイズ
 
 subplot(row, column, 1);
-plot(analysis.linearAmplitudedSpectral);
+plot(cepstrum.linearAmplitudedSpectral);
 xlim([0 20000]);
 
 subplot(row, column, 2);
-plot(analysis.linearAmplitudedSpectralEnvelope);
+plot(cepstrum.linearAmplitudedSpectralEnvelope);
 xlim([0 20000]);

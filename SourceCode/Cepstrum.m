@@ -1,4 +1,4 @@
-classdef Analysis < handle
+classdef Cepstrum < handle
     %% プロパティ
     properties(SetAccess = private)
         originalSignalPath  % 開きたいデータのパス
@@ -41,10 +41,10 @@ classdef Analysis < handle
     %% メソッド
     methods
         % コンストラクタ
-        function object = Analysis(originalSignalPath, samplingFrequency, dataType, startPoint, continueTime, FFTPoint, maxCepstrumPoint, threshold, repeatNumber, peakPointOfCepstrumGain, synthesizedFilePath)
+        function object = Cepstrum(originalSignalPath, samplingFrequency, dataType, startPoint, continueTime, FFTPoint, maxCepstrumPoint, threshold, repeatNumber, peakPointOfCepstrumGain, synthesizedFilePath)
             % Matlabの環境を初期化する
             object.clearEnviornments();
-            
+
             % 音声信号を読み込むのに必要はパラメータをセット
             object.originalSignalPath = originalSignalPath;
             object.samplingFrequency = samplingFrequency;
@@ -440,7 +440,7 @@ classdef Analysis < handle
             closeFile(openedFile);
         end
 
-        % 環境を一度リセットするmethod
+        % 環境を一度リセットするメソッド
         function clearEnviornments(object)
             clear variables;  % clear viriables
             clc % clear comand window
