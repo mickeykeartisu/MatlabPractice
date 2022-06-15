@@ -41,7 +41,7 @@ classdef Cepstrum < handle
     %% メソッド
     methods
         % コンストラクタ
-        function object = Cepstrum(originalSignalPath, samplingFrequency, dataType, startPoint, continueTime, FFTPoint, maxCepstrumPoint, threshold, repeatNumber, peakPointOfCepstrumGain, synthesizedFilePath)
+        function object = Cepstrum(originalSignalPath, samplingFrequency, dataType, startPoint, continueTime, FFTPoint, maxCepstrumDimension, threshold, repeatNumber, peakPointOfCepstrumGain, synthesizedFilePath)
             % Matlabの環境を初期化する
             object.clearEnviornments();
 
