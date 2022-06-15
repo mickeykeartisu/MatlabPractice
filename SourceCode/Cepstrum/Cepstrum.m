@@ -71,7 +71,7 @@ classdef Cepstrum < handle
 
             % ケプストラムの低次元の最大値と閾値を設定してケプストラムを計算する
             object.setCepstrum();
-            object.maxCepstrumDimension = maxCepstrumPoint;
+            object.maxCepstrumDimension = maxCepstrumDimension;
             object.threshold = threshold;
 
             % ケプストラムの頂点を計算して基本周波数と基本周期を計算する
@@ -128,8 +128,8 @@ classdef Cepstrum < handle
         end
 
         % ケプストラムの抽出する最大の次元数のセッター
-        function set.maxCepstrumDimension(object, maxCepstrumPoint)
-            object.maxCepstrumDimension = maxCepstrumPoint;
+        function set.maxCepstrumDimension(object, maxCepstrumDimension)
+            object.maxCepstrumDimension = maxCepstrumDimension;
         end
  
         % 有声か無声かを判定する為の閾値
