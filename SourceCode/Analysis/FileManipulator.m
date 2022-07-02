@@ -1,6 +1,6 @@
 classdef FileManipulator < handle
     %% プロパティ
-    properties(SetAccess = public)
+    properties(SetAccess = private)
         inputFilePath   % 開きたいデータのパス(.raw形式)
         outputFilePath  % 保存先のパス(.raw)
         samplingFrequency   % サンプリング周波数
@@ -117,17 +117,17 @@ classdef FileManipulator < handle
             end
         end
 
-        % 合成された音声信号を保存するメソッド
-        function writeSignal(object, signal)
-            openedFile = openFile(object.outputFilePath, "w");
-            fwrite(openedFile, signal, object.dataType);
-            closeFile(openedFile);
-        end
-
         % ファイルオブジェクトからファイルを読み込むメソッド
         function readSignal(object)
             openedFile = openFile(object.inputFilePath, "r");
             object.originalSignal = fread(openedFile, object.dataType);
+            closeFile(openedFile);
+        end
+
+        % 合成された音声信号を保存するメソッド
+        function writeSignal(object, signal)
+            openedFile = openFile(object.outputFilePath, "w");
+            fwrite(openedFile, signal, object.dataType);
             closeFile(openedFile);
         end
 

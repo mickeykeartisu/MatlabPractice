@@ -17,7 +17,7 @@ fileManipulator.displayProperties();
 
 %% 分析をする際のパラメータ
 startPoint = 8863;  % スタート位置
-FFTPoint = 2 ^ 9;  % FFTを行う際の次元数
+FFTPoint = 2 ^ 10;  % FFTを行う際の次元数
 maxCepstrumDimension = 31;  % 高ケフレンシー成分
 threshold = 0.01;   % 有声音か無声音かを判定する際の閾値
 repeatNumber = 100; % 基本周期で繰り返す回数
@@ -37,4 +37,3 @@ cepstrum = Cepstrum( ...
 % プロパティを表示して再生する
 cepstrum.displayProperties();
 soundsc(cepstrum.synthesizedSignal, cepstrum.samplingFrequency);
-

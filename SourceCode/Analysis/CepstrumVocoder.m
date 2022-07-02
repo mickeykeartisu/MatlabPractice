@@ -1,4 +1,4 @@
-classdef STFT < handle
+classdef CepstrumVocoder < handle
     %% プロパティ
     properties(SetAccess = private)
         originalSignal  % 入力された全体の信号
@@ -14,7 +14,7 @@ classdef STFT < handle
     %% メソッド
     methods
         %% デフォルトコンストラクタ
-        function object = STFT(originalSignal, samplingFrequency, frameLength, frameShift, FFTPoint)
+        function object = CepstrumVocoder(originalSignal, samplingFrequency, frameLength, frameShift, FFTPoint)
             object.originalSignal = originalSignal; % 入力された信号
             object.samplingFrequency = samplingFrequency;   % サンプリング周波数 [Hz]
             object.frameLength = frameLength;   % インスタンス生成時は[ms]で入力後自動で計算する

@@ -1,6 +1,6 @@
 % ファイルを操作する際のパラメータ
-inputFilePath = "D:\名城大学\研究室\演習\data\M007_ATR503_A01_T01.raw";
-outputFilePath = "D:\名城大学\研究室\演習\data\outputTest.raw";
+inputFilePath = "D:/名城大学/研究室/演習/data/F009_ATR503_A01_T01_8k.raw";
+outputFilePath = "D:\名城大学\研究室\演習\data\F009_ATR503_A01_T01_8kCepstrum.raw";
 samplingFrequency = 8000;
 dataType = "int16";
 
@@ -11,5 +11,3 @@ fileManipulator = FileManipulator( ...
     samplingFrequency, ...
     dataType ...
 );
-
-fileManipulator.displayProperties();
