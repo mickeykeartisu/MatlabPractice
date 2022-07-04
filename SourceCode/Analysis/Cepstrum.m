@@ -61,10 +61,13 @@ classdef Cepstrum < handle
 
             % ケプストラムのインパルス応答から重畳加算する
             object.synthesizeSignal();
+
+            % ケプストラムの情報を表示する
+            object.displayProperties();
         end
 
         %% セッター
-        % 読み込んだのセッター
+        % 読み込んだ信号のセッター
         function set.extractedSignal(object, originalSignal)
             if length(originalSignal) <= 1
                 throw(MException("Setter:originalSignal", "original signal shape is smaller then 0."));
