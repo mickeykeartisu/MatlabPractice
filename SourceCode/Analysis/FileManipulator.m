@@ -90,33 +90,6 @@ classdef FileManipulator < handle
         end
 
         %% 普通のメソッド
-        % ファイルを開くメソッド
-        function openedFile = openFile(filePath, permission)
-            % ファイルを開く
-            [openedFile, errmsg] = fopen(filePath, permission);
-
-            % 例外処理
-            if openedFile < 0
-                fprintf('openedFile : %d\n', openedFile);
-                fprintf('errmsg : %s\n\n', errmsg);
-            else
-                fprintf('Could open file correctly\n');
-            end
-        end
-
-        % ファイルオブジェクトを閉じるメソッド
-        function closeFile(openedFile)
-            % ファイルオブジェクトを閉じる
-            status = fclose(openedFile);
-
-            % ファイルを閉じれた場合
-            if status == 0
-                fprintf("Could close file correctly\n\n");
-            else
-                fprintf("Could not close file correctly\n\n");
-            end
-        end
-
         % ファイルオブジェクトからファイルを読み込むメソッド
         function readSignal(object)
             openedFile = openFile(object.inputFilePath, "r");
@@ -148,5 +121,32 @@ classdef FileManipulator < handle
             fprintf("original signal size : (%d, %d)\n", size(object.originalSignal));
             fprintf("------------------------------------------------\n\n");
         end
+    end
+end
+
+% ファイルを開くメソッド
+function openedFile = openFile(filePath, permission)
+    % ファイルを開く
+    [openedFile, errmsg] = fopen(filePath, permission);
+
+    % 例外処理
+    if openedFile < 0
+        fprintf('openedFile : %d\n', openedFile);
+        fprintf('errmsg : %s\n\n', errmsg);
+    else
+        fprintf('Could open file correctly\n');
+    end
+end
+
+% ファイルオブジェクトを閉じるメソッド
+function closeFile(openedFile)
+    % ファイルオブジェクトを閉じる
+    status = fclose(openedFile);
+
+    % ファイルを閉じれた場合
+    if status == 0
+        fprintf("Could close file correctly\n\n");
+    else
+        fprintf("Could not close file correctly\n\n");
     end
 end

@@ -133,7 +133,6 @@ classdef CepstrumVocoder < handle
 
         % それぞれの基本周波数を計算する
         function calculateBasicFrequenciesAndSynthesize(object, maxCepstrumDimension, threshold, repeatNumber, basicPeriodGain)
-            fprintf("--------------------------------------------------\n");
             for frameIndex = 1 : length(object.basicFrequencies)
                 cepstrum = Cepstrum( ...
                     object.originalSignal(object.frameShift * (frameIndex - 1) + 1 : object.frameShift * (frameIndex - 1) + 1 + object.frameLength), ...
@@ -165,7 +164,6 @@ classdef CepstrumVocoder < handle
                     + cepstrum.impulseResponseOfCepstrum;
                 end
             end
-            fprintf("--------------------------------------------------\n\n");
         end
 
         % パラメータを表示するメソッド

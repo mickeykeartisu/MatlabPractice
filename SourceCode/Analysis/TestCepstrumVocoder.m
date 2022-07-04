@@ -14,8 +14,8 @@ fileManipulator = FileManipulator( ...
 
 %% CepstrumVocoderオブジェクトを生成する際のパラメータ
 FFTPoint = 2 ^ 10;  % FFTを行う際の次元数
-maxCepstrumDimension = 31;  % 高ケフレンシー成分の最大値
-threshold = 0.15;   % 有声音か無声音かを判定する際の閾値
+maxCepstrumDimension = 21;  % 高ケフレンシー成分の最大値
+threshold = 0.01;   % 有声音か無声音かを判定する際の閾値
 repeatNumber = 100; % 基本周期で繰り返す回数
 basicPeriodGain = 1;    % 基本周期の間隔のゲイン
 frameLength = 32;  % フレーム長 [ms]
