@@ -169,7 +169,7 @@ classdef CepstrumVocoder < handle
         % パラメータを表示するメソッド
         function displayProperties(object)
             fprintf("------------------------------------------------\n");
-            fprintf("--------------------- STFT ---------------------\n");
+            fprintf("---------------- CepstrumVocoder ---------------\n");
             fprintf("original signal shape : (%d, %d)\n", size(object.originalSignal));
             fprintf("frame length : %d [ポイント]\n", object.frameLength);
             fprintf("shift length : %d [ポイント]\n", object.frameShift);
