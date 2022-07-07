@@ -6,6 +6,8 @@ classdef Plotter < handle
 
         spectralEnvelopeWithDB % 入力されたスペクトル包絡
         amplitudeSpectral   % 振幅スペクトル
+        samplingFrequency   % サンプリング周波数
+        FFTPoint    % FFTポイント数
 
         xLabel  % X軸のラベル
         yLabel  % Y軸のラベル
@@ -17,9 +19,11 @@ classdef Plotter < handle
     %% メソッド
     methods
         %% デフォルトコンストラクタ
-        function object = Plotter(spectralEnvelopeWithDB, amplitudeSpectral, xLabel, yLabel, titleLabel, outputImageFilePath)
+        function object = Plotter(spectralEnvelopeWithDB, amplitudeSpectral, samplingFrequency, FFTPoint, xLabel, yLabel, titleLabel, outputImageFilePath)
             object.spectralEnvelopeWithDB = spectralEnvelopeWithDB;
             object.amplitudeSpectral = amplitudeSpectral;
+            object.samplingFrequency = samplingFrequency;
+            object.FFTPoint = FFTPoint;
             object.xLabel = xLabel;
             object.yLabel = yLabel;
             object.titleLabel = titleLabel;
@@ -78,6 +82,22 @@ classdef Plotter < handle
             object.outputImageFilePath = outputImageFilePath;
         end
 
+        % FFTの際の次元数のセッター
+        function set.FFTPoint(object, FFTPoint)
+            if FFTPoint <= 1
+                throw(MException("Setter:FFTPoint", "FFT Point is smaller than 2."));
+            end
+            object.FFTPoint = FFTPoint;
+        end
+
+        % サンプリング周波数のセッター
+        function set.samplingFrequency(object, samplingFrequency)
+            if samplingFrequency <= 0
+                throw(MException("Setter:samplingFrequency", "sampling frequency is smaller than 0."))
+            end
+            object.samplingFrequency = samplingFrequency;
+        end
+
         %% ゲッター
         % 入力されたスペクトル包絡のゲッター
         function spectralEnvelopeWithDB = get.spectralEnvelopeWithDB(object)
@@ -109,13 +129,23 @@ classdef Plotter < handle
             outputImageFilePath = object.outputImageFilePath;
         end
 
+        % サンプリング周波数のゲッター
+        function samplingFrequency = get.samplingFrequency(object)
+            samplingFrequency = object.samplingFrequency;
+        end
+
+        % FFTの際の次元数のゲッター
+        function FFTPoint = get.FFTPoint(object)
+            FFTPoint = object.FFTPoint;
+        end
+
         %% 普通のメソッド
         function plotSignalAndSave(object)
-            plot(1 : length(object.spectralEnvelopeWithDB), object.spectralEnvelopeWithDB, "r", 1 : length(object.amplitudeSpectral), object.amplitudeSpectral, "b", 'LineWidth', 1);
+            plot(object.samplingFrequency * (1 : length(object.spectralEnvelopeWithDB)) / object.FFTPoint, object.spectralEnvelopeWithDB, "r", object.samplingFrequency * (1 : length(object.amplitudeSpectral)) / object.FFTPoint, object.amplitudeSpectral, "b", 'LineWidth', 1);
             xlabel(object.xLabel);
             ylabel(object.yLabel);
             title(object.titleLabel);
-            axis([0 4000 -50 40]);
+            xlim([0 object.samplingFrequency / 2 + 1]);
             grid on;
 
             print(object.outputImageFilePath, "-dpng");

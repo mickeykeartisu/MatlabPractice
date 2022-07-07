@@ -57,7 +57,7 @@ classdef Cepstrum < handle
             object.calculateLinearAmplitudeSpectralEnvelope();
 
             % ケプストラムのインパルス応答を計算する
-            object.calculatempulseResponseOfCepstrum();
+            object.calculateImpulseResponseOfCepstrum();
 
             % ケプストラムのインパルス応答から重畳加算する
             object.synthesizeSignal();
@@ -278,7 +278,7 @@ classdef Cepstrum < handle
         end
 
         % ケプストラムのインパルス応答を計算するメソッド
-        function calculatempulseResponseOfCepstrum(object)
+        function calculateImpulseResponseOfCepstrum(object)
             realPartOfLinearAmplitutedSpectralEnvelope = real(object.linearAmplitudedSpectralEnvelope);
             inverseFourierTransformedSignal = ifft(realPartOfLinearAmplitutedSpectralEnvelope, object.FFTPoint);
             realPartOfInverseFourierTransformedSignal = real(inverseFourierTransformedSignal);
