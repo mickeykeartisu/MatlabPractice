@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: morphingWithSTRAIGHT.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Wed Oct 19 03:02:03 2005 -->
+<head>
+<title>Morphing with STRAIGHT -- マニュアル操作によるSTRAIGHTパラメタ抽出の修正</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_9.html"><img border="0" alt="STRAIGHTによる分析" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>マニュアル操作によるSTRAIGHTパラメタ抽出の修正</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table>
+<h3>マニュアル操作によるSTRAIGHTパラメタ抽出の修正</h3>
+<p>STRAIGHTの既定値では適切に分析できない音声試料を扱わなければならないことがあります。
+録音状況が悪かったり、掠れ声や嗄れ声の場合に、基本周波数抽出がうまく行かず、
+その結果、基本周波数情報に強く依存しているSTRAIGHTの分析全体が破綻してしまうことがあります。
+このような場合には、一括してSTRAIGHT分析とMオブジェクトの更新を行う
+<tt>executeSTRAIGHTanalysisM</tt>を用いることを止めて、マニュアル操作で分析のための
+設定を変更する必要があります。
+また、このような場合に信頼できる基本周波数情報を抽出するための、
+特別な関数(<tt>MulticueF0v14</tt>)が用意されています。
+以下では，この関数を用いた基本周波数情報の抽出について、説明して行きます。</p>
+<p>以下の命令により，基本周波数と有声／無声情報(vuv)を抽出します。</p><pre>
+[f0raw,vuv,auxouts,prmouts]=MulticueF0v14(neutralHai.waveform,neutralHai.samplingFrequency);
+</pre>
+<tt>auxouts</tt>は，分析の途中で用いた内部情報です。今回は無視しておきます。
+<tt>prmouts</tt>は，基本周波数の抽出に用いた条件を記録している変数です。
+<p>これらの結果をモーフィングオブジェクトに登録します。</p><pre>
+neutralHai = updateFieldOfMobject(neutralHai,'F0',f0raw);
+neutralHai = updateFieldOfMobject(neutralHai,'vuv',vuv);
+neutralHai = updateFieldOfMobject(neutralHai,'F0extractionConditions',prmouts);
+</pre>
+<p>ここまでの分析で基本周波数と有声／無声情報が得られました。
+それらを用いて，もう一つの音源情報である非周期性指標<tt>ap</tt>を抽出します。</p><pre>
+[ap,analysisParams]=exstraightAPind(neutralHai.waveform,neutralHai.samplingFrequency,f0raw.*vuv);
+</pre>これも，同様にモーフィングオブジェクトに登録しておきます。<pre>
+neutralHai = updateFieldOfMobject(neutralHai,'aperiodicityIndex',ap);
+</pre>
+<p>最後に，STRAIGHTスペクトログラムを求めます。</p><pre>
+[n3sgram,prmP]=exstraightspec(neutralHai.waveform,f0raw.*vuv,neutralHai.samplingFrequency);
+</pre>
+<p>これも，同様にモーフィングオブジェクトに登録しておきます。
+また，分析条件も登録しておきます。</p><pre>
+neutralHai = updateFieldOfMobject(neutralHai,'spectrogram',n3sgram);
+neutralHai = updateFieldOfMobject(neutralHai,'SpectrumExtractionConditions',prmP);
+</pre>
+<p>これらの操作の結果，モーフィングオブジェクトの内容は，以下のようになります。
+この方法を応用すれば，モーフィングオブジェクトの一部を書き換えることができます。
+</p><pre>
+neutralHai = 
+
+                            date: '14-Oct-2005 11:24:48'
+                             pwd: '/Users/kawahara/matlab/morphingV20_004b'
+                        waveform: [11368x1 double]
+               samplingFrequency: 44100
+                              F0: [256x1 double]
+                             vuv: [256x1 double]
+                     spectrogram: [1025x256 double]
+               aperiodicityIndex: [1025x256 double]
+             frameUpdateInterval: 1
+              anchorTimeLocation: []
+          maximumFrequencyPoints: 9
+                 anchorFrequency: []
+          F0extractionConditions: [1x1 struct]
+    SpectrumExtractionConditions: [1x1 struct]
+              creatorInformation: '/Users/kawahara/matlab/morphingV20_004b/createMobject.m'
+</pre>
+<hr /><address>Hideki Kawahara, October 19, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_9.html"><img border="0" alt="STRAIGHTによる分析" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>マニュアル操作によるSTRAIGHTパラメタ抽出の修正</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table></body></html>

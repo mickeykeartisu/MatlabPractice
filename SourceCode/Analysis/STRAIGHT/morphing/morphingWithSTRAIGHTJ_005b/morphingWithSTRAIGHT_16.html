@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: morphingWithSTRAIGHT.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Wed Oct 19 03:02:04 2005 -->
+<head>
+<title>Morphing with STRAIGHT -- モーフィング音声の合成と書き出し</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_7.html"><img border="0" alt="モーフィングの手順" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_15.html"><img border="0" alt="モーフィングの実行" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>モーフィング音声の合成と書き出し</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table>
+<h2>モーフィング音声の合成と書き出し</h2>
+<p>モーフィングの結果はMオブジェクトになっています。
+ここでは、Mオブジェクトから合成音声を作成する汎用の関数<tt>executeSTRAIGHTsynthesisM</tt>を用意しておきます。
+以下のようにして合成を行います。</p><pre>
+syang = executeSTRAIGHTsynthesisM(angryHai);
+</pre>
+<p>この合成関数も、オプションを指定することができます。
+おそらく特に有用なオプションは、従来のSTRAIGHTの既定の動作である
+有声部分のエネルギーの正規化でしょう。
+感情音声のようにエネルギー自体が情報を有している場合に、特に必要になる
+オプションです。
+以下のように指定すると，正規化は行われません。</p><pre>
+prminSyn.levelNormalizationIndicator = 0;
+syang = executeSTRAIGHTsynthesisM(angryHai,prminSyn);
+</pre>
+<p>書き出しには、Matlabの関数である<tt>wavwrite</tt>や、
+minimumSTRAIGHTの<tt>aiffwrite</tt>を使って下さい。
+いずれも、出力可能な数値の範囲に注意して下さい。</p>
+<hr /><address>Hideki Kawahara, October 19, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_7.html"><img border="0" alt="モーフィングの手順" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_15.html"><img border="0" alt="モーフィングの実行" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>モーフィング音声の合成と書き出し</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table></body></html>

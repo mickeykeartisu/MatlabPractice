@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:32 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 分析合成の既定値の変更</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_14.html"><img border="0" alt="音声合成関数の設定値の制御" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_0.html"><img border="0" alt="Top" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_8.html"><img border="0" alt="分析合成の既定値の読み出し" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>分析合成の既定値の変更</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h1>分析合成の既定値の変更</h1>
+<p>前の節で紹介した既定値は、フィールド名を指定して値を設定することにより，変更することができます。
+指定する場合には，変更したいフィールドだけを有する構造体を作成して、最後のパラメタとして関数を呼び出して下さい。
+それぞれの関数の呼び出し方を以下に示します。</p><pre>[f0raw,ap,prmF0]=exstraightsource(x,fs prmF0in);
+[n3sgram,prmP]=exstraightspec(x,f0raw,fs,prmPin);
+[sy,prmS] = exstraightsynth(f0raw,n3sgram,ap,fs,prmS);
+</pre>
+<p>ここでは、音源情報抽出関数を例として説明します。
+使用頻度の多い音声合成関数については、節を改めて説明します。
+まず、音源情報表示用のフィールドである<tt>DisplayPlots</tt>を用いて、
+抽出される音源情報と、背景として用いられた情報を表示することにします。
+以下のようなコマンドを入力すると、それらの情報が以下のようにプロットされます。</p><pre>prminF0.DisplayPlots=1;
+prminF0.note='viaueo2d.wav';
+figure;[f0raw,ap]=exstraightsource(x,fs,prminF0);
+</pre>
+<p>なお、ここで入れた二行目は、読み込んだファイル名です。
+このフィールドには，任意の文字列を書き込むことができますが、
+ファイル名を入れておくのが適当でしょう。</p>
+<div class="quote"><p>
+<img src="sourceinfo.png"  /></p></div>
+<ul>
+<li><a href="gettingStartedJ_13.html">分析のやり直しについて</a></li>
+</ul>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_14.html"><img border="0" alt="音声合成関数の設定値の制御" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_0.html"><img border="0" alt="Top" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_8.html"><img border="0" alt="分析合成の既定値の読み出し" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>分析合成の既定値の変更</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

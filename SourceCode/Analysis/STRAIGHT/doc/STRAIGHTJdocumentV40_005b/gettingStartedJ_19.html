@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:33 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 合成音声の最低周波数について</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_14.html"><img border="0" alt="音声合成関数の設定値の制御" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_15.html"><img border="0" alt="群遅延パラメタの制御" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>合成音声の最低周波数について</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h2>合成音声の最低周波数について</h2>
+<p>STRAIGHTが合成できる最低周波数は，インパルス応答計算に用いているFFT用の
+配列のサイズと標本化周波数により定まるバッファの時間長に制限される。
+実装では，バッファの時間長がこの最長基本周期の2倍以上になるように
+設定されている。
+STRAIGHTv40&#95;005bから
+ユーザは，合成時の最低基本周波数を明示的に指定できるようになった。
+<sup><a href="gettingStartedJ_28.html#id1">1</a></sup></p>
+<p>具体的には，以下のように合成条件を指定する構造体に
+最低基本周波数を設定する。
+明示的に設定しない場合には，50Hzが最低基本周波数として
+設定される。
+以下では、最低基本周波数を明示的に20Hzに設定する場合の例を示す。
+</p><pre>
+prm.lowestF0 = 20;
+[sy,prmS] = exstraightsynth(f0raw,n3sgram,ap,fs,prm);
+</pre>
+<p>合成関数の呼び出しで，合成条件を返す構造体を戻り値に指定しておくことにより，
+合成時に問題が生じたか否かを確認することができる。
+具体的には，上記の例では，
+</p><pre>
+prmS.statusReport
+</pre>
+<p>に，状況に応じて，以下のようなメッセージが設定される。
+</p><dl><dt>ok </dt><dd>  正常に合成が行われた場合。
+</dd><dt>Minimum synthesized F0 exceeded the lower limit</dt><dd>  合成で指定したF0が，
+予め設定してあった最低基本周波数以下となった場合。
+</dd><dt>The FFT length was inconsistent and replaced</dt><dd> 
+STRAIGHTスペクトルとして渡されたデータのサイズに基づいて計算された
+バッファの時間長が指定された最低基本周波数と矛盾する場合。
+この場合は、内部で使用するバッファ長を設定し直して，正常に合成される。
+</dd><dt>Frequency axix mapping function is not consistent with lowestF0</dt><dd>
+外部からテーブルの形で直接与えた周波数軸の写像のサイズが
+合成関数内部で用いるバッファサイズと矛盾する場合。
+テーブルは無視される。
+</dd></dl>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_14.html"><img border="0" alt="音声合成関数の設定値の制御" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_15.html"><img border="0" alt="群遅延パラメタの制御" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>合成音声の最低周波数について</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

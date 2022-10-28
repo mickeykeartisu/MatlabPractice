@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:33 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 群遅延変動の遷移周波数：groupDelayRandomizeCornerFrequency</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_18.html"><img border="0" alt="群遅延変動の空間周波数帯域幅：groupDelaySpatialBandWidth" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_15.html"><img border="0" alt="群遅延パラメタの制御" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_16.html"><img border="0" alt="群遅延変動の標準偏差：groupDelayStandardDeviation" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>群遅延変動の遷移周波数：groupDelayRandomizeCornerFrequency</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h3>群遅延変動の遷移周波数：groupDelayRandomizeCornerFrequency</h3>
+<p>この制御パラメタの既定値は4000Hzとしてあります。
+この制御パラメタは、群遅延がランダムに変動する領域と
+群遅延が一定である領域との境界の周波数を設定します。</p>
+<p>ここでも前の節と同じ例を用い、同じ前提条件が成立しているものとして
+説明を進めます。
+以下の命令を実行することにより、構造体のフィールド<tt>groupDelayRandomizeCornerFrequency</tt>
+の遷移周波数が8000Hzに設定され、駆動信号が作成されます。
+なお、ここでは、結果を見易くするため、群遅延変動の標準偏差を2msとしました。
+</p><pre>prminS.groupDelayStandardDeviation=2;
+prminS.groupDelayRandomizeCornerFrequency=8000;
+sy8000 = exstraightsynth(f0raw,n3sgram*0+100,ap*0-80,fs,prminS);
+</pre>
+<p>波形は、遷移周波数が4000Hzの場合と比較すると、ややピークが鋭くなったかと
+思える程度で、違いはそれほど明らかではありません。
+</p><div class="quote"><p>
+<img src="wv8000.png"  /></p></div>
+<p>しかし、サウンドスペクトログラムを見ると、意図した通りに
+8000Hz以上でだけエネルギーが時間方向に拡散していることが分かります。
+</p><div class="quote"><p>
+<img src="sg8000.png"  /></p></div>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_18.html"><img border="0" alt="群遅延変動の空間周波数帯域幅：groupDelaySpatialBandWidth" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_15.html"><img border="0" alt="群遅延パラメタの制御" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_16.html"><img border="0" alt="群遅延変動の標準偏差：groupDelayStandardDeviation" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>群遅延変動の遷移周波数：groupDelayRandomizeCornerFrequency</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

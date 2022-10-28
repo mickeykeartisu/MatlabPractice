@@ -1,0 +1,128 @@
+function [apv,dpv]=aperiodicpart4(x,fs,f0,shiftm,intshiftm,mm);
+%	Relative aperiodic energy estimation
+%		[apv,dpv]=aperiodicpart4(x,fs,f0,shiftm,intshiftm,mm)
+%		x	: input speech
+%		fs	: sampling frequency (Hz)
+%		f0	: fundamental frequency (Hz)
+%		shiftm	: frame shift (ms) for input F0 data
+%		intshiftm 	: frame shift (ms) for internal processing
+%		mm	: length of frequency axis (usually 2^N-1)
+%
+
+%	19/August/1999
+%	21/August/1999
+%	30/April/2005 modification for Matlab v7.0 compatibility
+
+fftl=2.0.^ceil(log2(6.7*fs/40));  % FFT size selection to be scalable
+fr40=round(40/fs*fftl)/fftl*fs;  % nearesr frequency for 40 Hz
+
+fframe=1000/shiftm; % frame update frequency (Hz)
+nn=length(f0);
+deltat0=diff(f0(:));
+deltat0=([deltat0;deltat0(nn-1)]+[deltat0(1);deltat0])/2*fframe;
+
+tx=(0:length(x)-1)/fs;
+
+%----- window design for 40 Hz ------
+
+tt=((1:fftl)-fftl/2)/fs;
+w=exp(-pi*(tt*fr40/1).^2);  % fr40/0.2 to fr40/2 worked reasonably. But, WATCH fftl !!
+wb=max(0,1-abs(tt*fr40/2));
+wb=wb(wb>0);
+wcc=fftfilt(wb,[w,zeros(1,fftl)]);
+wcc=wcc/max(wcc);
+wcc=wcc(wcc>0.00002)-0.00002;
+wcc=wcc/sum(wcc);
+
+%------ selector design ----
+%[mm,ll]=size(env);
+ll=length(f0);
+fxa=(0:mm-1)/(mm-1)*fs/2;
+fxfi=(0:fftl/2)'/fftl*fs;
+lf40=(0.5+0.5*cos(2*pi*fxfi/fr40)).^6;
+df40=(0.5-0.5*cos(2*pi*fxfi/fr40)).^6;
+
+%------ analysis for each frame
+
+xc=[randn(fftl*2,1)*0.0001;interp(x(:),2);randn(fftl*2,1)*0.0001];
+txc=(0:length(xc)-1)/fs/2-(fftl*2+1)/fs/2;
+rt=((1:length(wcc))-length(wcc)/2)/fs;
+rt2=rt.^2;
+
+apv=zeros(mm,nn);
+dpv=apv;
+bc=1:fftl/2+1;
+f0(f0==0)=f0(f0==0)*0+160;
+
+deltat0(abs(deltat0)>2000)=deltat0(abs(deltat0)>2000)*0;
+
+tbs=((1:fftl)-fftl/2)/fs;
+llf=1.0./(1+exp(400*(abs(tbs)-0.035)));
+mllf=fftshift(llf);
+
+bss=(1:fftl/2-1);
+bss2=1:fftl/2;
+
+%keyboard
+disp([' o represents ' num2str(10*intshiftm) '(ms)'])
+
+iix=1;
+
+for jj=1:intshiftm:round(length(x)/fs*1000)
+   %for ii=1:nn
+
+  ii = max(1,min(nn,round(jj/shiftm)));
+  if ii>nn
+	  break
+  end;
+  
+  xs=interp1(txc,xc, ...
+   (fr40/f0(ii)*rt-0.5*deltat0(ii)/f0(ii)*rt2*(fr40/f0(ii))^2)+ii*shiftm/1000,'*linear');
+  a=fft((xs-mean(xs)).*wcc,fftl);
+%  sms=real(fft(real(ifft(20*log(abs(a)+0.00000001))).*mllf));
+  aa=abs(a);
+  sms=20*log10((2*aa+[aa(end),aa(1:end-1)]+[aa(2:end),aa(1)])/4);
+  plits=[0 (((diff(sms(bss2)).*diff(sms(bss2+1)))<0).*sms(bss).*(diff(sms(bss2))>0))];
+  dlits=[0 (((diff(sms(bss2)).*diff(sms(bss2+1)))<0).*sms(bss).*(diff(sms(bss2))<0))];
+  gg=fxfi(abs(plits)>0);
+  gfg=(sms(abs(plits)>0));
+  if length(gfg)>0
+	  gfg1=gfg(1);
+  else
+	  gfg1=sms(1);
+  end;
+  apv(:,iix)=interp1q([0;gg;fs/2]*f0(ii)/fr40,[gfg1,gfg,sms(fftl/2+1)]',fxa');
+	
+  dd=fxfi(abs(dlits)>0);
+  dfd=(sms(abs(dlits)>0));
+  if length(dfd)>0
+	  dfd1=dfd(1);
+  else
+	  dfd1=sms(1);
+  end;
+  dpv(:,iix)=interp1q([0;dd;fs/2]*f0(ii)/fr40,[dfd1,dfd,sms(fftl/2+1)]',fxa');
+  iix=iix+1;
+
+  if iix>nn
+
+     break
+
+  end;
+%  fprintf(num2str(iix))
+%  if rem(iix,10)==0;fprintf('\n');end;
+  if rem(iix,10)==0
+    fprintf('o')
+    if rem(iix,200)==0
+%		keyboard
+       fprintf('\n')
+    end;
+  end;
+
+
+  if ii==-100;keyboard;end;
+end;
+fprintf('\n')
+apv=apv(:,1:iix-1);
+dpv=dpv(:,1:iix-1);
+%keyboard;
+

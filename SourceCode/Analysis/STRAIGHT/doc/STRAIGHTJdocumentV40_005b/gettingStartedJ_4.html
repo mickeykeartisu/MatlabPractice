@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:31 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 音声ファイルの読み書きについて</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_3.html"><img border="0" alt="コマンドモードでの分析合成（既定値の使用）" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>音声ファイルの読み書きについて</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h2>音声ファイルの読み書きについて</h2>
+<p>合成された音声は、歴史的な経緯から、
+音声部分のrms値がLSBを1とした場合の符号付き16bitの最大値から
+-22dBとなるように正規化されています。
+従って、Matlabからwav形式で書き出す場合には、以下のように
+する必要があります。
+ここでは、<tt>test.wav</tt>というファイルに書き出す場合を例に説明します。</p><pre>wavwrite(sy/32768,fs,16,'test.wav');
+</pre>STRAIGHTではAIFF形式での書き出しもサポートしています。この場合には，関数(<tt>aiffwrite</tt>)はLSBを1として書き出しますので、wav形式の場合のような調整は不要です。<pre>aiffwrite(sy,fs,16,'test.aiff');
+</pre>（STRAIGHTでのスペクトル分析には、バグがあり、音声信号が16bit整数の範囲にあることを想定した動作をしていました。今回作成した<tt>exstraightspec</tt>では、このバグは修正されています。）
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_3.html"><img border="0" alt="コマンドモードでの分析合成（既定値の使用）" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>音声ファイルの読み書きについて</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

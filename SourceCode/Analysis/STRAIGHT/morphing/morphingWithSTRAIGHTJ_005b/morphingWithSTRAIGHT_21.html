@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: morphingWithSTRAIGHT.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Wed Oct 19 03:02:04 2005 -->
+<head>
+<title>Morphing with STRAIGHT -- STRAIGHTパラメタと特徴点の情報を用いるモーフィング</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_17.html"><img border="0" alt="モーフィングの実装(ICASSP2003版まで)" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_20.html"><img border="0" alt="STRAIGHTパラメタと特徴点の位置情報のみを用いるモーフィング" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>STRAIGHTパラメタと特徴点の情報を用いるモーフィング</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table>
+<h2>STRAIGHTパラメタと特徴点の情報を用いるモーフィング</h2>
+<p>時間軸を整合させた混合法を拡張し、周波数軸の変換を加えると、現在の
+モーフィングの実装となります。
+今回の開発は順を追って積み上げているので，さらに拡張することも、
+デバッグも簡単になることを期待しています。
+ここで開発する関数は<tt>timeFrequencySTRAIGHTmorphing</tt>です。
+使用方法は、前の節と同じです。
+違いは，この関数が特徴点の全ての情報を使っていることだけです。
+以下の操作により、logでの比率0.5のモーフィングが実行され、
+モーフィングにより作られたスペクトログラムと特徴点が表示されます。
+また、その時の音声も合成されます。
+</p><pre>
+mObjectdmy = timeFrequencySTRAIGHTmorphing(neutralHai,angryHai,0.5,'log');
+displayMobject(mObjectdmy,'anchorTimeLocation','Log');
+axis([0 283 0 7000])
+syneu = executeSTRAIGHTsynthesisM(mObjectdmy);
+</pre>
+<p>図に、スペクトログラムと特徴点を示します。
+モーフィングされた特徴点が、
+モーフィングによって作られたスペクトログラムの特徴点として
+妥当な場所に設定されていることが分かります。
+これで、ICASSP'2003で発表したモーフィングの手続きが、
+新しい枠組みの上に実装されたことになります。
+<a href="newMorphLog.wav">モーフィングで作られたMオブジェクトから合成された音声</a>も、
+これまでのものよりも自然なものになっています。
+</p><div class="quote"><p>
+<img src="AnchorLog.png"  /></p></div>
+<p>混合法をlinearにしたものも図示しておきます。
+</p><div class="quote"><p>
+<img src="AnchorLinear.png"  /></p></div>
+<p>これで、最初の目的が達成できたことになります。
+まず、Mオブジェクトさえ用意してあれば、自由にモーフィングを行うことができるようになりました。
+プログラムも、最初から書き直して、段階的に拡張することにより、見通しの良いものとすることができました。
+改良等の提案を歓迎します。</p>
+<hr /><address>Hideki Kawahara, October 19, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_17.html"><img border="0" alt="モーフィングの実装(ICASSP2003版まで)" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_20.html"><img border="0" alt="STRAIGHTパラメタと特徴点の位置情報のみを用いるモーフィング" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>STRAIGHTパラメタと特徴点の情報を用いるモーフィング</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table></body></html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: morphingWithSTRAIGHT.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Wed Oct 19 03:02:03 2005 -->
+<head>
+<title>Morphing with STRAIGHT -- モーフィングオブジェクト</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_4.html"><img border="0" alt="モーフィングオブジェクトへの情報の追加" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_2.html"><img border="0" alt="概念の準備" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>モーフィングオブジェクト</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table>
+<h2>モーフィングオブジェクト</h2>
+<p>モーフィングとは、ある音と別の音が与えられたときに、
+一方の音から他方の音までの中間となる音を合成する方法です。
+そのためには、音がSTRAIGHTによって分析され、
+パラメタとして表現されているとともに、
+モーフィングの手掛りとなる情報が提供されている
+必要があります。
+そのような情報をまとめたものを
+モーフィングオブジェクトと呼ぶことにします。
+長過ぎる場合には，Mオブジェクトと呼ぶことにします。</p>
+
+<h4><a name="id1">モーフィングオブジェクトの持つ情報</a></h4><p>Mオブジェクトは、Matlabの構造体として実現しておきます。
+モーフィングのためには、Mオブジェクトには以下の情報が必要となります。
+これらを構造体のフィールドとして実装しておきます。
+</p><ul><li><b>音声波形</b>
+</li><li><b>標本化周波数</b>
+</li><li><b>STRAIGHTスペクトログラム</b>
+</li><li><b>基本周波数</b>
+</li><li><b>非周期性指標</b>
+</li><li><b>フレーム周期</b>
+</li><li><b>特徴点</b>
+</li></ul>
+<p>また、Mオブジェクトの作成された日時や、作業が行われた場所、
+分析に用いられたパラメタ等の付属情報も記録するようにします。</p>
+<hr /><address>Hideki Kawahara, October 19, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_4.html"><img border="0" alt="モーフィングオブジェクトへの情報の追加" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_2.html"><img border="0" alt="概念の準備" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>モーフィングオブジェクト</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table></body></html>

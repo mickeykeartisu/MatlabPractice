@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: morphingWithSTRAIGHT.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Wed Oct 19 03:02:04 2005 -->
+<head>
+<title>Morphing with STRAIGHT -- STRAIGHTパラメタと特徴点の位置情報のみを用いるモーフィング</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_21.html"><img border="0" alt="STRAIGHTパラメタと特徴点の情報を用いるモーフィング" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_17.html"><img border="0" alt="モーフィングの実装(ICASSP2003版まで)" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_19.html"><img border="0" alt="STRAIGHTパラメタのみを用いるモーフィング" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>STRAIGHTパラメタと特徴点の位置情報のみを用いるモーフィング</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table>
+<h2>STRAIGHTパラメタと特徴点の位置情報のみを用いるモーフィング</h2>
+<p>モーフィングの次の拡張は、時間軸の整合です。
+まだ周波数軸の整合を行っていませんので，最終形態ではありません。
+しかし、ここまでで、かなり自然な音がし始めます。
+使う関数は<tt>timeAlignedDirectSTRAIGHTmorphing</tt>です。
+引数の意味は、前と同じです。
+最初と次の引数が混合すべきMオブジェクトを表し、
+三番目の引数が、二番目のMオブジェクトの混合比率
+（合計が1になるように混合されます）を表し、
+最後の引数が混合の方法を表します。
+混合の方法は、今のところ<tt>linear</tt>と<tt>log</tt>を用意してあります。
+</p><pre>
+mObjectdmy = timeAlignedDirectSTRAIGHTmorphing(neutralHai,angryHai,0.5,'log');
+</pre>
+<p>時間軸は、この版で最終的なモーフィングになっています。
+一次元のパラメタである基本周波数は、特徴点の時刻を利用して、
+区分的一次関数により補間されます。
+この例では、赤：0、青：0.5、緑：1で、異なった
+モーフィング率による軌跡を同一の図面に表示しています。
+</p><div class="quote"><p>
+<img src="alignedF0.png"  /></p></div>
+<p>この時のモーフィングされたスペクトログラムを示します。
+時間軸を整合させない場合と比較すると、フォルマントの遷移の軌跡が
+実際の音声に近くなっていることが分かります。
+</p><div class="quote"><p>
+<img src="alignedMixSgramLog.png"  /></p></div>
+<p>この関数の出力もMオブジェクトなので、合成関数を使って音声にすることができます。
+<a href="alignedMixSTRAIGHTlog.wav">こうして時間軸を整合させたモーフィングから合成した音声</a>は，
+前の例よりも、実際の声に近づいているように感じられます。
+混合方法をlinearにした場合のスペクトログラムを以下に示します。
+この場合には、フォルマント遷移部分にまだ二つのフォルマントが重なっていることが
+分かります。
+</p><div class="quote"><p>
+<img src="alignedMixSgramLinear.png"  /></p></div>
+<a href="alignedMixSTRAIGHTlinear.wav">混合方法をlinearにしたモーフィングから合成した音声</a>も、logの場合と同様に、前の節の音声よりも自然になっています。
+<p>モーフィングの結果、特徴点も移動します。以下の方法で、上で求められたMオブジェクトの特徴点を表示させてみましょう。</p><pre>
+displayMobject(mObjectdmy,'anchorTimeLocation','alignedLinSum');
+axis([0 283 0 7000])
+</pre>
+<p>移動は、直線補間を用いて実装してあります。
+周波数の変形が大きな場合には、ERB尺度の上で補間を考えた方が良いかも知れません。
+linearで混合されたスペクトログラムの上に、こうして移動された特徴点を重ねたものを、
+以下に示します。
+混合されたスペクトログラムそのものの特徴となる位置と、
+こうして移動された特徴点は、うまく重なっていません。
+これは、ここまででは、十分に自然なモーフィングが実装できていないことを示していると
+解釈することもできます。
+</p><div class="quote"><p>
+<img src="alignedMixAnchorLinear.png"  /></p></div>
+<hr /><address>Hideki Kawahara, October 19, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_21.html"><img border="0" alt="STRAIGHTパラメタと特徴点の情報を用いるモーフィング" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_17.html"><img border="0" alt="モーフィングの実装(ICASSP2003版まで)" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_19.html"><img border="0" alt="STRAIGHTパラメタのみを用いるモーフィング" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>STRAIGHTパラメタと特徴点の位置情報のみを用いるモーフィング</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table></body></html>

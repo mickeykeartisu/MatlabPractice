@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: morphingWithSTRAIGHT.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Wed Oct 19 03:02:03 2005 -->
+<head>
+<title>Morphing with STRAIGHT -- STRAIGHTによる分析</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_11.html"><img border="0" alt="特徴点の付与" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_7.html"><img border="0" alt="モーフィングの手順" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_8.html"><img border="0" alt="音声の読み込み" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>STRAIGHTによる分析</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table>
+<h2>STRAIGHTによる分析</h2>
+<p>読み込んだそれぞれのMオブジェクトの中の
+音声情報をSTRAIGHTにより分析します。
+以下の分析ではMatlabのコマンドウインドウの操作でSTRAIGHTによる分析を行います。
+（GUI版はモーフィングに必要な柔軟性を持っていませんので、
+使用しないようにして下さい。）
+求められたパラメタと、分析に用いられたパラメタから
+必要なものをオブジェクトに追加しておきます。
+これらのよく使う操作を関数<tt>executeSTRAIGHTanalysisM</tt>としてまとめておきました。
+通常の使用では、この関数を使えば良いでしょう。
+以下によって、既定値でのSTRAIGHT分析が行われます。
+（既定値でのSTRAIGHT分析ではうまく行かない場合もあります。
+その場合は、新しい基本周波数抽出のための関数や，
+STRAIGHT以外のプログラムを用いて基本周波数を求めることが
+必要になります。それらの具体的な方法については，付録に譲ります。）
+</p><pre>
+neutralHai = executeSTRAIGHTanalysisM(neutralHai);
+angryHai = executeSTRAIGHTanalysisM(angryHai);
+</pre>
+次に行う特徴点の付与は、かなり時間のかかる作業になります。ここで、Mオブジェクトをファイルとして書き出しておくと良いでしょう。STRAIGHTの分析結果の情報量は巨大です。
+将来の実装では、このような無駄を無くする予定です。しかし、とりあえずは、我慢して下さい。
+<pre>
+save neutralHai neutralHai
+save angryHai angryHai
+</pre>
+<p>ここで、参考のため、この段階でのMオブジェクトの内容を見ておきましょう。
+フィールド名は、それ自身を説明しています。</p><pre>
+neutralHai = 
+
+                            date: '14-Oct-2005 11:24:48'
+                             pwd: '/Users/kawahara/matlab/morphingV20_004b'
+                        waveform: [11368x1 double]
+               samplingFrequency: 44100
+                              F0: [1x258 double]
+                             vuv: [1x258 logical]
+                     spectrogram: [1025x258 double]
+               aperiodicityIndex: [1025x258 double]
+             frameUpdateInterval: 1
+              anchorTimeLocation: []
+          maximumFrequencyPoints: 9
+                 anchorFrequency: []
+          F0extractionConditions: [1x1 struct]
+    SpectrumExtractionConditions: [1x1 struct]
+              creatorInformation: '/Users/kawahara/matlab/morphingV20_004b/createMobject.m'
+
+</pre>
+<ul>
+<li><a href="morphingWithSTRAIGHT_10.html">マニュアル操作によるSTRAIGHTパラメタ抽出の修正</a></li>
+</ul>
+<hr /><address>Hideki Kawahara, October 19, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_11.html"><img border="0" alt="特徴点の付与" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_7.html"><img border="0" alt="モーフィングの手順" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_8.html"><img border="0" alt="音声の読み込み" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>STRAIGHTによる分析</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table></body></html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:31 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- コマンドモードでの分析合成（既定値の使用）</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_5.html"><img border="0" alt="新しい基本周波数抽出プログラムをSTRAIGHTで使う方法" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_0.html"><img border="0" alt="Top" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_2.html"><img border="0" alt="STRAIGHTの動作環境" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>コマンドモードでの分析合成（既定値の使用）</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h1>コマンドモードでの分析合成（既定値の使用）</h1>
+<p>Matlabのcommand windowを用いて、STRAIGHTによる分析合成を行う手順を紹介します。
+まず、分析の対象である音声信号をファイルから読み込みます。
+ここでは、minimum STRAIGHTを解凍して出来たディレクトリの中にある<tt>vaiueo2d.wav</tt>というファイルを用います。
+次のコマンドでファイルを読み込みます。</p><pre>[x,fs]=wavread('vaiueo2d.wav');
+</pre>ここでは、<tt>x</tt>に音声波形が入り、<tt>fs</tt>に信号の標本化周波数（単位はHz）が入ります。
+<p>まず、STRAIGHTの分析で必要となる基本周波数(<tt>f0raw</tt>)を抽出します。
+併せて、周波数帯域毎の周期性を表す指標（<tt>ap</tt>）も抽出しておきます。</p><pre>[f0raw,ap]=exstraightsource(x,fs);
+</pre>
+<p>ここで、求めた基本周波数の情報と、音声信号、標本化周波数を用いて、
+音の響きに相当するパラメタ(<tt>n3sgram</tt>)を求めます。</p><pre>n3sgram=exstraightspec(x,f0raw,fs);
+</pre>このパラメタは、良く知られているサウンドスペクトログラムに類似した時間周波数表現です。一言で表すと、「サウンドスペクトログラムに中に含まれる周期的駆動に起因する微細構造を組織的に取り除いた時間周波数表現」です。以下では、これをSTRAIGHTスペクトログラムと呼ぶことにします。また、ある特定の時刻での分析結果（STRAIGHTスペクトログラムの時間断面）を、STRAIGHTスペクトルと呼ぶことにします。
+<p>こうして抽出したパラメタを用いて、変換を加えずに音声を再合成します。
+再合成には、以下のコマンドを用います。</p><pre>sy = exstraightsynth(f0raw,n3sgram,ap,fs);
+</pre>合成された音声は、<tt>sy</tt>という変数に格納されていますので、次のコマンドにより、音として確認することができます。<pre>soundsc(sy,fs);
+</pre><ul>
+<li><a href="gettingStartedJ_4.html">音声ファイルの読み書きについて</a></li>
+</ul>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_5.html"><img border="0" alt="新しい基本周波数抽出プログラムをSTRAIGHTで使う方法" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_0.html"><img border="0" alt="Top" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_2.html"><img border="0" alt="STRAIGHTの動作環境" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>コマンドモードでの分析合成（既定値の使用）</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

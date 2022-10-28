@@ -1,0 +1,1 @@
+function y=HzTo3rdoct(x,fl)% by Matrin Cooke, adopted from MAD libraryy=log((x+fl/100)/fl)/log(2)*3;

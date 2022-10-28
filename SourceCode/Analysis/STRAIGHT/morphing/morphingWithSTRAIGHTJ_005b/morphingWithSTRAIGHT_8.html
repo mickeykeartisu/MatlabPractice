@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: morphingWithSTRAIGHT.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Wed Oct 19 03:02:03 2005 -->
+<head>
+<title>Morphing with STRAIGHT -- 音声の読み込み</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_9.html"><img border="0" alt="STRAIGHTによる分析" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_7.html"><img border="0" alt="モーフィングの手順" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>音声の読み込み</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table>
+<h2>音声の読み込み</h2>
+<p>まず、Mオブジェクトを生成します。
+このMオブジェクトに読み込んだ音声と、基本周波数の情報を追加します。
+事例間のモーフィングのためには、少なくとも2個の音声を読み込む必要があります。
+参照事例無しにモーフィングする場合には、１個の音声を読み込むだけで構いません。
+ここでは、平静の音声「はい」と、
+怒りの音声「はい」を例にとって説明します。
+それぞれ、<tt>tmneu.wav</tt>と<tt>tmang.wav</tt>というファイルに
+入っているものとします。
+</p><pre>
+neutralHai=createMobject;
+angryHai=createMobject;
+[x,fs]=wavread('tmneu.wav');
+neutralHai=updateFieldOfMobject(neutralHai,'waveform',x);
+[x,fs]=wavread('tmang.wav');
+angryHai=updateFieldOfMobject(angryHai,'waveform',x);
+</pre>
+<hr /><address>Hideki Kawahara, October 19, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_9.html"><img border="0" alt="STRAIGHTによる分析" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_7.html"><img border="0" alt="モーフィングの手順" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>音声の読み込み</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table></body></html>

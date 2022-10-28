@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:33 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 分析のやり直しについて</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_12.html"><img border="0" alt="分析合成の既定値の変更" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>分析のやり直しについて</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h2>分析のやり直しについて</h2>
+<p>STRAIGHTは、基本周波数の推定結果に依存する分析方法です。
+既定値を用いた分析ではうまく行かない場合には、
+分析のパラメタを変更して基本周波数を求め直す必要があります。
+あるいは、STRAIGHTの基本周波数抽出法ではなく
+別のアルゴリズムを用いて求めた基本周波数を用いたい場合があるかも知れません。
+その場合には，非周期性指標を、求められた基本周波数の情報を用いて
+推定し直す必要があります。
+第四の関数は、そのために用意されました。
+呼び出し方は、音源情報抽出関数に準じますが、基本周波数情報が
+新たに入力情報として加えられています。
+</p><pre>ap=exstraightAPind(x,fs,f0);
+</pre>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_12.html"><img border="0" alt="分析合成の既定値の変更" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>分析のやり直しについて</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

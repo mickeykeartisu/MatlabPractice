@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:33 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 群遅延変動の空間周波数帯域幅：groupDelaySpatialBandWidth</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_15.html"><img border="0" alt="群遅延パラメタの制御" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_17.html"><img border="0" alt="群遅延変動の遷移周波数：groupDelayRandomizeCornerFrequency" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>群遅延変動の空間周波数帯域幅：groupDelaySpatialBandWidth</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h3>群遅延変動の空間周波数帯域幅：groupDelaySpatialBandWidth</h3>
+<p>この制御パラメタの既定値は70Hzになっています。
+これは、群遅延特性の変動が周波数方向でどの程度の粗さを持つかを決めるパラメタです。
+時間分解能と周波数分解能には不確定性の関係があるため、
+群遅延の周波数方向での変動を細かく規定し過ぎると、
+時間方向に波形が広がってしまうという現象が生じます。
+この広がりを制御するために、群遅延の周波数方向での変動の
+空間周波数帯域幅を規定します。
+周波数方向の群遅延が、この広がりを持つ周波数軸上での移動平均関数によって
+平滑化されると解釈すると、イメージがつかめるかも知れません。
+この値を、既定値の10倍の700Hzとした場合の波形とスペクトログラムを示します。
+ここでも様子を分かり易くするために、
+群遅延変動の標準偏差を2msとしました。
+</p><pre>prminS.groupDelayStandardDeviation=2;
+prminS.groupDelaySpatialBandWidth=700;
+sy700 = exstraightsynth(f0raw,n3sgram*0+100,ap*0-80,fs,prminS);
+</pre>
+<p>波形は、やや広がりが小さいように見えますが、違いは顕著ではありません。
+</p><div class="quote"><p>
+<img src="wv700.png"  /></p></div>
+<p>しかし、スペクトログラムでは、空間周波数帯域幅が70Hzの場合に
+認められた、パルスにまつわりつく雲のような成分が消えていることが
+分かります。
+また、周波数方向でのうねりも滑らかになっていることが分かります。
+</p><div class="quote"><p>
+<img src="sg700.png"  /></p></div>
+
+<h4><a name="id1">groupDelaySpatialBandWidthが7Hzの場合</a></h4><p>群遅延変動の標準偏差が同一であっても、
+空間周波数帯域幅を小さくすると、細かな成分が時間方向に拡散することが分かります。
+</p><div class="quote"><p>
+<img src="wv7.png"  /></p></div>
+周波数方向の見かけ上のうねりが細かくなっていることと、まつわりつく雲のような成分が増えていることが分かります。
+<div class="quote"><p>
+<img src="sg7.png"  /></p></div>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_15.html"><img border="0" alt="群遅延パラメタの制御" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_17.html"><img border="0" alt="群遅延変動の遷移周波数：groupDelayRandomizeCornerFrequency" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>群遅延変動の空間周波数帯域幅：groupDelaySpatialBandWidth</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

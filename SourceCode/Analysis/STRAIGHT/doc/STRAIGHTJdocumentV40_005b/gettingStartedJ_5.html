@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:31 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 新しい基本周波数抽出プログラムをSTRAIGHTで使う方法</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_8.html"><img border="0" alt="分析合成の既定値の読み出し" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_0.html"><img border="0" alt="Top" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_3.html"><img border="0" alt="コマンドモードでの分析合成（既定値の使用）" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>新しい基本周波数抽出プログラムをSTRAIGHTで使う方法</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h1>新しい基本周波数抽出プログラムをSTRAIGHTで使う方法</h1>
+<p>ここでは，INTERSPEECH2005&nbsp;<a href="gettingStartedJ_21.html#kawahara2005interspeech">[4]</a>で報告した
+「複数の手がかりを用いた高品質音声変換用の基本周波数抽出法」のプログラムを
+STRAIGHTで使う方法を紹介します。
+感情や表情を強く表している音声では，
+声帯振動の振舞いなどの音源情報に関わる特徴が極端に変化することがあります。
+そのような場合の音源情報の分析に，この新しい方法は特に適しています。</p>
+<b>音声ファイルの読み込み</b> 
+<p>ここは，普通のやり方と同じです。
+</p><pre>[x,fs]=wavread('vaiueo2d.wav');
+</pre><b>音源情報の抽出</b>
+<p>この部分を新しいプログラムで置き換えます。
+以下は、最も簡単な使用方法です。
+</p><pre>f0raw = MulticueF0v14(x,fs);
+</pre>
+上のプログラムでは基本周波数だけが求められますので、STRAIGHTでの合成に必要なもう一つの情報である非周期性指標を求めます。そのために<tt>exstraightAPind</tt>という関数を用意しました。以下のようにして使います。
+<pre> ap = exstraightAPind(x,fs,f0raw);
+</pre>
+<b>時間周波数表現の抽出</b>  
+<p>ここは，普通のやり方と同じです。
+</p><pre>n3sgram=exstraightspec(x,f0raw,fs);
+</pre><b>音声の再合成</b>  
+<p>ここも，普通のやり方と同じです。
+</p><pre>sy = exstraightsynth(f0raw,n3sgram,ap,fs);
+</pre><b>Note:</b>
+<p>新しい基本周波数抽出プログラムのより詳しい使用方法は，
+プログラムの名前をタイプしてリターンキーを押すことでも知ることができます。</p>
+<ul>
+<li><a href="gettingStartedJ_6.html">新しい基本周波数抽出方法と既存の方法の比較</a></li>
+</ul>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_8.html"><img border="0" alt="分析合成の既定値の読み出し" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_0.html"><img border="0" alt="Top" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_3.html"><img border="0" alt="コマンドモードでの分析合成（既定値の使用）" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>新しい基本周波数抽出プログラムをSTRAIGHTで使う方法</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

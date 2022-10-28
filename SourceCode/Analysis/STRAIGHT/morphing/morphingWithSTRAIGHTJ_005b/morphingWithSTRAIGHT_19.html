@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: morphingWithSTRAIGHT.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Wed Oct 19 03:02:04 2005 -->
+<head>
+<title>Morphing with STRAIGHT -- STRAIGHTパラメタのみを用いるモーフィング</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_20.html"><img border="0" alt="STRAIGHTパラメタと特徴点の位置情報のみを用いるモーフィング" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_17.html"><img border="0" alt="モーフィングの実装(ICASSP2003版まで)" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_18.html"><img border="0" alt="付属情報をほとんど用いないモーフィング" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>STRAIGHTパラメタのみを用いるモーフィング</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table>
+<h2>STRAIGHTパラメタのみを用いるモーフィング</h2>
+<p>もう少し、現実的な例として、STRAIGHのパラメタを混合することにします。
+ここでは、時間軸の整合を行いません。
+それぞれのパラメタを、指定された割合で重ね合わせるだけです。
+混合用の関数<tt>directSTRAIGHTmorphing</tt>を用意してあります。
+最初と次の引数が混合すべきMオブジェクトを表し、
+三番目の引数が、二番目のMオブジェクトの混合比率
+（合計が1になるように混合されます）を表し、
+最後の引数が混合の方法を表します。
+混合の方法は、今のところ<tt>linear</tt>と<tt>log</tt>を用意してあります。
+</p><pre>
+mObject3 = directSTRAIGHTmorphing(neutralHai,angryHai,0.5,'linear');
+</pre>
+<p>時間軸を合わせていないので、STRAIGHTスペクトログラムでは、
+フォルマントの軌跡が二重になる等の異常が生じます。
+次の図は、STRAIGHTスペクトルの値をそのまま合成したものです。
+</p><div class="quote"><p>
+<img src="directMixSgram.png"  /></p></div>
+<p>基本周波数も同様に対数周波数の上で混合します。
+時間軸を整合していないため、ある区間では片方が有声音で
+他方が無声音になる場合があります。
+そのような場合には，有声音の基本周波数を採用するようにしました。
+合成された基本周波数の軌跡を示します。
+青が合成された軌跡です。
+赤と緑は、それぞれの基本周波数軌跡を示します。
+</p><div class="quote"><p>
+<img src="directMixF0.png"  /></p></div>
+<p>このような混合では、出来上がったSTRAIGHTスペクトログラムも
+基本周波数軌跡も、自然な音声ではあり得ないものとなっています。
+しかし、これらから
+<a href="mixSTRAIGHTlinear.wav">再合成された音声</a>
+は、それほど不自然には響きません。
+あるいは、声道形状と一対一に対応する属性としてのフォルマントは、
+知覚的な手掛りとしては意味の無いものなのかも知れません。
+むしろ、スペクトル上でのエネルギーの集中領域という即物的な手掛りの方が
+知覚に深く関係しているのかも知れません。</p>
+<p>SRAIGHTスペクトルの混合法には、そのまま混合するやり方の他に
+対数スペクトル上で混合する方法もあります。
+</p><pre>
+&gt;&gt; mObject3 = directSTRAIGHTmorphing(neutralHai,angryHai,0.5,'log');
+&gt;&gt; syneu = executeSTRAIGHTsynthesisM(mObject3);
+&gt;&gt; wavwrite(syneu/32768,fs,16,'mixSTRAIGHTlog.wav');
+</pre>
+<p>これはスペクトルのかけ算に相当するため、エネルギーの低い方に形状は支配されます。
+そのようにして合成したSTRAIGHTスペクトログラムを以下に示します。
+</p><div class="quote"><p>
+<img src="directMixSgramLog.png"  /></p></div>
+<p>このSTRAIGHTスペクトログラムを用いて
+<a href="mixSTRAIGHTlog.wav">再合成した音声</a>は、
+終了部分に余分な音節が付加されたように聴こえます。</p>
+<hr /><address>Hideki Kawahara, October 19, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_20.html"><img border="0" alt="STRAIGHTパラメタと特徴点の位置情報のみを用いるモーフィング" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_17.html"><img border="0" alt="モーフィングの実装(ICASSP2003版まで)" src="up.png"/></a></td><td bgcolor="#99ccff"><a href="morphingWithSTRAIGHT_18.html"><img border="0" alt="付属情報をほとんど用いないモーフィング" src="previous.png"/></a></td><td align="center" bgcolor="#99ccff" width="100%"><b>STRAIGHTパラメタのみを用いるモーフィング</b></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_28.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="morphingWithSTRAIGHT_27.html">Index</a></td></tr></table></body></html>

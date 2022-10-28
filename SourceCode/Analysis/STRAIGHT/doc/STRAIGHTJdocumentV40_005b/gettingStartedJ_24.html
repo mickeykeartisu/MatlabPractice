@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:34 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 非周期性指標</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_23.html"><img border="0" alt="付録：STRAIGHTのパラメタについて" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>非周期性指標</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h2>非周期性指標</h2>
+<p>STRAIGHTにおける駆動音源の制御には二種類の手段が提供されています。
+一つは、群遅延の制御であり，もう一つは非周期性指標を用いる方法です。
+非周期性指標は，パルスと雑音の和として表される
+駆動音源の全エネルギーに占める雑音（ランダム）成分のエネルギーを表します。
+非周期性指標を求める全体の流れは，以下のようになります。
+</p><div class="quote"><p>
+<img src="aoeriodicityEstimation.png"  /></p></div>
+<p>非周期性指標の推定の中心となる処理であるスペクトル包絡(envelope extraction)の
+抽出について以下の図で説明します。
+非周期性指標(ap)は，基本的には，スペクトルの上側包絡(Ue)と下側包絡(Le)との差として求められます。
+(ap = Le-Ue)
+</p><div class="quote"><p>
+<img src="APindexExtraction.png"  /></p></div>
+<p>こうして求められた素材としての推定値は，周波数方向に1ERBの分解能で平滑化されます。
+（ERB: Equivalent Rectangular Band widthについては，聴覚心理などの教科書をご覧下さい）
+参考までに，周波数(x)とERB(y)の関係を求めるMatlabのコードを以下に示します。
+</p><pre>
+y = 21.4*log10(4.37e-3*x+1); 
+</pre>
+<p>最後に，こうして求められた値を，較正用の表を用いて較正した値を求めます。
+この較正用の表は，合成母音を用いたシミュレーションにより予め求めておきます。</p>
+<pre>
+imagesc([0 794],[0 fs/2],10.0.^(ap/20));axis('xy')
+</pre>
+次の図に，男性の発声した母音系列/aiueo/から求められた非周期性指標を
+上記の式で変換したものを示します。
+<p>非周期性指標自体は，dBにより表されています。
+この値は，全エネルギーに占める雑音のエネルギーを表しているため，
+0dBは駆動が完全にランダムであることを意味します。
+この指標を-60dB以下に設定すると，駆動信号は
+実質的にはパルスだけとなります。</p>
+<div class="quote"><p>
+<img src="apforaiueo.png"  /></p></div>
+<div class="quote"><p>
+<img src="STRsgramforaiueo.png"  /></p></div>
+<p>以下に非周期性指標を操作する例を示します。
+これは最後に添付した音声を作成した際の実際のMatlabセッションを記録したものです。
+</p><pre>
+&gt;&gt; [x,fs,nbs,ops]=wavread('vaiueo2d.wav');
+&gt;&gt; [f0raw,ap]=exstraightsource(x,fs);
+&gt;&gt; n3sgram=exstraightspec(x(:,1),f0raw,fs);
+&gt;&gt; syOrg = exstraightsynth(f0raw,n3sgram,ap,fs);
+&gt;&gt; syApr = exstraightsynth(f0raw,n3sgram,ap*0,fs);
+&gt;&gt; syPpr = exstraightsynth(f0raw,n3sgram,ap*0-60,fs);
+&gt;&gt; [syPprD0,prmS] = exstraightsynth(f0raw,n3sgram,ap*0-60,fs);
+&gt;&gt; prmS
+
+prmS = 
+
+                spectralUpdateInterval: 1
+           groupDelayStandardDeviation: 0.5000
+            groupDelaySpatialBandWidth: 70
+    groupDelayRandomizeCornerFrequency: 4000
+              ratioToFundamentalPeriod: 0.2000
+                    ratioModeIndicator: 0
+           levelNormalizationIndicator: 1
+                        headRoomToClip: 22
+               powerCheckSegmentLength: 15
+                  timeAxisMappingTable: 1
+      fundamentalFrequencyMappingTable: 1
+             frequencyAxisMappingTable: 1
+              timeAxisStretchingFactor: 1
+                          DisplayPlots: 0
+                              lowestF0: 50
+                          statusReport: 'ok'
+
+&gt;&gt; prmS.groupDelayStandardDeviation = 0.001;
+&gt;&gt; [syPprD0,prmS] = exstraightsynth(f0raw,n3sgram,ap*0-60,fs,prmS);
+&gt;&gt; wavwrite(syOrg/32768,fs,16,'synAiueoOrg.wav');
+&gt;&gt; wavwrite(syApr/32768,fs,16,'synAiueoApr.wav');
+&gt;&gt; wavwrite(syPpr/32768,fs,16,'synAiueoPpr.wav');
+&gt;&gt; wavwrite(syPprD0/32768,fs,16,'synAiueoPprD0.wav');
+</pre>
+<p>このセッションにより作成された音声を以下にリンクしておきます。
+</p><ul><li><a href="synAiueoOrg.wav">既定値を用いた合成音声</a>
+</li><li><a href="synAiueoApr.wav">駆動音源をノイズだけにした合成音声</a>
+</li><li><a href="synAiueoPpr.wav">駆動音源をパルスだけにした合成音声（群遅延操作あり）</a>
+</li><li><a href="synAiueoPprD0.wav">駆動音源をパルスだけにした合成音声（群遅延操作無し）</a>
+</li></ul>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_23.html"><img border="0" alt="付録：STRAIGHTのパラメタについて" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>非周期性指標</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

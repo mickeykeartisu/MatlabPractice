@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:33 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 群遅延変動の標準偏差：groupDelayStandardDeviation</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_17.html"><img border="0" alt="群遅延変動の遷移周波数：groupDelayRandomizeCornerFrequency" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_15.html"><img border="0" alt="群遅延パラメタの制御" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>群遅延変動の標準偏差：groupDelayStandardDeviation</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h3>群遅延変動の標準偏差：groupDelayStandardDeviation</h3>
+<p>この制御パラメタの既定値は0.5(ms)としてあります。
+群遅延のランダムな変動の標準偏差を設定するパラメタです。
+このパラメタを操作することで、駆動用信号がどのようになるかを
+以下で説明します。</p>
+<p>まず、群遅延の変動を0とした場合の駆動信号を調べます。
+ここでは、これまでに例として説明で用いてきた音声(<tt>vaiueo2d.wav</tt>)が分析されており、
+パラメタ(<tt>f0raw,n3sgram,ap</tt>)が求められているものとします。
+合成時のフィルタ特性を規定する<tt>n3sgram</tt>を周波数や時間に依存しない一定値とし、
+音源の非周期成分の相対レベル(dB)を定める<tt>ap</tt>を十分に小さな値として
+合成関数を呼ぶことにします。
+さらに、群遅延変動の標準偏差である<tt>groupDelayStandardDeviation</tt>という
+フィールドの値を0とした構造体<tt>prminS</tt>を次のように定義して渡すことにより、
+群遅延の変動を0とした場合の駆動信号が得られます。
+なお、他の制御パラメタである群遅延変動の遷移周波数は4000Hz, 
+群遅延変動の空間周波数帯域幅は70Hzの既定値が用いられます。</p><pre>prminS.groupDelayStandardDeviation=0.000001;
+sy0 = exstraightsynth(f0raw,n3sgram*0+100,ap*0-80,fs,prminS);
+</pre>
+<p>この場合の波形とスペクトログラムを調べることにします。
+例えば、次のようなコマンドで確認することができます。
+ここでは、フレーム間隔の既定値が1msであることを利用して時間軸を設定しています。
+また、スペクトログラムの作成にMatlabのspecgramを用いています。</p><pre>figure;
+plot((1:length(syZ))/fs*1000,sy0);
+axis([650 700 -30000 45000]);
+set(gca,'fontsize',16);
+xlabel('time (ms)');title('delsp=0, cornf=4000');
+figure;
+nsgnnZ=specgram(syZ,512,fs,90,85);
+[nr nc]=size(nsgnnZ);
+imagesc([0 nc*5000/fs],[0 fs/2],max(45,dB(abs(nsgnnZ))));axis('xy')
+axis([650 700 0 fs/2])
+xlabel('time (ms)');ylabel('frequency (Hz)'); title('delsp=0, cornf=4000');
+</pre>
+<p>以下の図は、母音区間の終了部分付近で基本周波数が
+75Hz程度になっている部分に対応する駆動信号の波形です。
+パルスの横の信号の固まりは，
+標本化周期以下の分解能でパルス位置を設定する際に生ずる
+ナイキスト周波数での位相の不連続を調整するために生ずる副作用です。
+この様子は，次のスペクトログラムを見ると良く分かります。
+</p><div class="quote"><p>
+<img src="wv0.png"  /></p></div>
+<p>以下の図は、同じ信号を短時間スペクトログラムとして表示したものです。
+この場合の標本化周波数は22,050Hzです。
+図から、ナイキスト周波数の付近でパルスに対応して
+エネルギーの集中している部分が湾曲していることが分かります。
+なお、ここでは、駆動信号の帯域毎のエネルギーの偏りを見やすくするため、
+時間窓長を約4msとし、フレーム周期を約0.23msとしています。
+暖色系がエネルギーの多い部分を表し、最も
+エネルギーの多い部分は、茶色になるように疑似カラーが設定されています。
+（最もエネルギーの多い部分を周波数方向に追跡した軌跡が、
+近似的に群遅延を表しています。）
+</p><div class="quote"><p>
+<img src="sg0.png"  /></p></div>
+
+<h4><a name="id1">groupDelayStandardDeviation=0.5 の場合（既定値）</a></h4><p></p><div class="quote"><p>
+<img src="wv05.png"  /></p></div>
+<div class="quote"><p>
+<img src="sg05.png"  /></p></div>
+
+<h4><a name="id2">groupDelayStandardDeviation=2 の場合</a></h4><p></p><div class="quote"><p>
+<img src="wv2.png"  /></p></div>
+<div class="quote"><p>
+<img src="sg2.png"  /></p></div>
+
+<h4><a name="id3">groupDelayStandardDeviation=6 の場合</a></h4><p></p><div class="quote"><p>
+<img src="wv6.png"  /></p></div>
+<div class="quote"><p>
+<img src="sg6.png"  /></p></div>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><a href="gettingStartedJ_17.html"><img border="0" alt="群遅延変動の遷移周波数：groupDelayRandomizeCornerFrequency" src="next.png"/></a></td><td bgcolor="#99ccff"><a href="gettingStartedJ_15.html"><img border="0" alt="群遅延パラメタの制御" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>群遅延変動の標準偏差：groupDelayStandardDeviation</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>

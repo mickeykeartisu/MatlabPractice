@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="EUC-JP"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: gettingStartedJ.tex
+     using Hyperlatex v 2.8 (c) Otfried Cheong
+     on Emacs 21.2.1, Mon Dec  5 23:53:32 2005 -->
+<head>
+<title>Using STRAIGHT in command mode -- 新しい基本周波数抽出方法と既存の方法の比較</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+dt {font-weight: bold}
+</style>
+</head>
+<body bgcolor="#ffffe6">
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_5.html"><img border="0" alt="新しい基本周波数抽出プログラムをSTRAIGHTで使う方法" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>新しい基本周波数抽出方法と既存の方法の比較</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table>
+<h2>新しい基本周波数抽出方法と既存の方法の比較</h2>
+<p>ここでは，既存の方法では問題が生じてうまく再合成できない音声を用いて，
+新しい基本周波数抽出法の効果を紹介します。
+この音声は，e-Societyで収録した強い表現の音声「お湯がわきました」です。
+以下のMatlabスクリプトは，既存の方法と新しい方法の両方を用いてこの音声を分析し，
+再合成するときに用いたものです。</p>
+<pre>
+[x,fs]=wavread('../Sample/em001c1013a.wav');
+[f0raw,vuv,auxouts,prmouts]=MulticueF0v14(x,fs);
+[ap,analysisParams]=exstraightAPind(x,fs,f0raw);
+[n3sgram,prmP]=exstraightspec(x,f0raw.*vuv,fs);
+[f0rawFixp,apFixp,analysisParams]=exstraightsource(x,fs);
+[n3sgramFixp,prmP]=exstraightspec(x,f0rawFixp,fs);
+[sy,prmS] = exstraightsynth(f0raw.*vuv,n3sgram,ap,fs);
+[syFixp,prmS] = exstraightsynth(f0rawFixp,n3sgramFixp,apFixp,fs);
+</pre>
+<p>元の音声と，再合成された音声を以下にリンクしておきます。
+</p><ul><li><a href="em001c1013a.wav">原音声：ハイテンションでの発声</a>
+</li><li><a href="synWithDefaultF0.wav">既存の基本周波数抽出法を用いた再合成音声</a>
+</li><li><a href="synWithNewF0.wav">新しい基本周波数抽出法を用いた再合成音声</a>
+</li></ul>
+抽出された基本周波数の軌跡を以下の図に示します。赤の線で示された軌跡は，既存の方法によるものです。青の線で示された軌跡は，新しい方法によるものです。新しい方法は，無声子音の部分や無音の部分でも0ではない基本周波数の値を出力しています。有声／無声の情報は，<tt>vuv</tt>という変数に二値で格納されています。下の図の黒線で囲まれた部分が，新しい方法で有声音と判定された部分です。<div class="quote"><p>
+<img src="newAndOldF0.png"  /></p></div>
+<p>再合成された音声と元の音声の波形の一部を下の図に示します。
+上から順に，既存の方法による再合成音声，新しい方法による再合成音声，原音声を示します。
+既存の方法にあった基本周波数の軌跡の乱れや不連続が，新しい方法には認められません。
+その結果、再合成音声に生じていた乱れも，新しい方法では生じていません。
+例えば，以下の図の800ms付近を見ると，新しい方法の効果が良く分かります。
+</p><div class="quote"><p>
+<img src="waveformsComp.png"  /></p></div>
+<ul>
+<li><a href="gettingStartedJ_7.html">新しい基本周波数抽出方法の分析パラメタの既定値</a></li>
+</ul>
+<hr /><address>Hideki Kawahara, December 5, 2005</address><br />
+<table width="100%" cellpadding="0" cellspacing="2"><tr>
+<td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td bgcolor="#99ccff"><a href="gettingStartedJ_5.html"><img border="0" alt="新しい基本周波数抽出プログラムをSTRAIGHTで使う方法" src="up.png"/></a></td><td bgcolor="#99ccff"><img alt="" src="blank.png"/></td><td align="center" bgcolor="#99ccff" width="100%"><b>新しい基本周波数抽出方法と既存の方法の比較</b></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_27.html">Contents</a></td><td bgcolor="#99ccff" align="center"><a href="gettingStartedJ_26.html">Index</a></td></tr></table></body></html>
