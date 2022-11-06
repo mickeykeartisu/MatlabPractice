@@ -7,6 +7,8 @@ inputFilePath = "vaiueo2d.wav";
 audioFileManipulator = AudioFileManipulator( ...
     inputFilePath ...
 );
+audioFileManipulator.load_properties();
+audioFileManipulator.display_properties();
 
 %% set parameters
 start_point = 3748;  % あのスタート位置

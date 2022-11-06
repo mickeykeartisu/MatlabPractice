@@ -61,9 +61,6 @@ classdef AudioFileManipulator < handle
             fprintf("total sample : %d [sample]\n", object.information.TotalSamples);
             fprintf("bit per sample : %d [bit]\n", object.information.BitsPerSample);
             fprintf("signal shape : (%d, %d)\n", size(object.signal));
-            fprintf("");
-            fprintf("");
-            fprintf("");
             fprintf("-----------------------------------------------------------------------\n\n");
         end
     end
