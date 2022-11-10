@@ -7,7 +7,8 @@ classdef AutocorrelationFunction < handle
     %           ・ window_mode   :   window name
     %   2. if you'd like to calculate autocorrelation, conduct calculate_autocorrelation_with_fourier() method(recomended)
     %   3. if you'd like to calculate autocorrelation, conduct calculate_autocorrelation() method(not recomended)
-    %   4. if you'd like to check properties, conduct display_properties() method
+    %   4. if you'd like to normalize, conduct normalize_autocorrelation() method
+    %   5. if you'd like to check properties, conduct display_properties() method
 
     %% ---------- properties ---------- %%
     properties(Access = public)
@@ -107,11 +108,9 @@ classdef AutocorrelationFunction < handle
         function calculate_autocorrelation(object)
             object.autocorrelation = zeros(length(object.signal), 1);
             for shift_index = 0 : length(object.signal) - 1
-                sumation = 0;
                 for time_index = 0 : length(object.signal) - shift_index - 1
-                    sumation = sumation + object.signal(time_index + 1) * object.signal(rem(time_index + shift_index, length(object.signal) - 1) + 1);
+                    object.autocorrelation(shift_index + 1) = object.autocorrelation(shift_index + 1) + (object.signal(time_index + 1) * object.signal(time_index + shift_index + 1));
                 end
-                object.autocorrelation(shift_index + 1) = sumation / length(object.signal);
             end
         end
 
@@ -119,9 +118,14 @@ classdef AutocorrelationFunction < handle
         function calculate_autocorrelation_with_fourier(object)
             object.calculate_fft_point();
             fft_signal = fft(object.signal, object.fft_point);
-            object.power_spectrum = (abs(fft_signal) .^ 2) / length(object.signal);
+            object.power_spectrum = (abs(fft_signal) .^ 2);
             object.autocorrelation = ifft(object.power_spectrum);
             object.autocorrelation = object.autocorrelation(1 : length(object.signal));
+        end
+
+        % method to normalize autocorrelation
+        function normalize_autocorrelation(object)
+            object.autocorrelation = object.autocorrelation / max(abs(object.autocorrelation));
         end
 
         % method to display properties

@@ -4,11 +4,13 @@ classdef LinearPredictiveCoding < handle
     %   1. generate LinearPredictiveCoding instance
     %       -> arguments : 
     %           ・ signal    :   audio monoral signal array
-    %           ・ sample_rate   : sampling_frequency [Hz]
+    %           ・ sample_rate   : sampling frequency [Hz]
     %           ・ window_mode  :   window name (default : hamming)
     %           ・ order : analysis order (default : 30)
     %           ・ voicing_threshold : threshold to judge voicing or non voicing (default : 0.0001)
     %   2. if you'd like to check properties, conduct display_properties() method
+    %   3. if you'd like to get spectrum_density(dB), conduct get_spectrum_density_dB() method
+    %   4. if you'd like to get residual_error_spectrum(dB), conduct get_residual_error_spectrum_dB() method
 
     %% ---------- properties ---------- %%
     properties(Access = public)
@@ -63,8 +65,11 @@ classdef LinearPredictiveCoding < handle
 
             autocorrelation_function = AutocorrelationFunction(object.signal, object.window_mode);
             autocorrelation_function.calculate_autocorrelation_with_fourier();
+            autocorrelation_function.normalize_autocorrelation();
             object.fft_point = autocorrelation_function.fft_point;
-            object.linear_predictor_coefficient = levinson(autocorrelation_function.autocorrelation, object.order);
+
+            partial_autocorrelation_coefficient = PartialAutocorrelationCoefficient(autocorrelation_function.autocorrelation, object.order);
+            object.linear_predictor_coefficient = partial_autocorrelation_coefficient.linear_predictive_coefficient;
 
             object.calculate_Ai();
             object.calculate_squared_sigma(autocorrelation_function.autocorrelation);
@@ -289,9 +294,16 @@ classdef LinearPredictiveCoding < handle
             end
         end
 
-        % method to calculate spectrum_density_dB
-        function spectrum_density_dB = calculate_spectrum_density_dB(object)
+        % method to get spectrum_density_dB
+        function spectrum_density_dB = get_spectrum_density_dB(object)
             spectrum_density_dB = 10 * log10(object.spectrum_density);
+        end
+
+        % method to get residual_error_spectrum_dB
+        function residual_error_spectrum_dB = get_residual_error_spectrum_dB(object)
+            residual_error_spectrum_dB = abs(fft(object.residual_error, object.fft_point));
+            residual_error_spectrum_dB = residual_error_spectrum_dB(1 : object.fft_point / 2 + 1);
+            residual_error_spectrum_dB = 20 * log10(residual_error_spectrum_dB);
         end
 
         % method to multiple signal and window
@@ -301,18 +313,24 @@ classdef LinearPredictiveCoding < handle
             end
         end
 
+        % method to normalize residual error
+        function normalize_residual_error(object)
+            object.residual_error = object.residual_error / max(abs(object.residual_error));
+        end
+
         % method to calculate residual_error
         function calculate_residual_error(object)
             object.residual_error = zeros(length(object.signal), 1);
             for time_index = 1 : length(object.residual_error)
                 signal_hat = 0;
-                for dimension_index = 1 : object.order
-                    if time_index - dimension_index > 0
-                        signal_hat = signal_hat + (object.linear_predictor_coefficient(dimension_index) * object.signal(time_index - dimension_index));
+                for order_index = 1 : object.order
+                    if time_index - order_index > 0
+                        signal_hat = signal_hat + (object.linear_predictor_coefficient(order_index + 1) * object.signal(time_index - order_index));
                     end
                 end
-                object.residual_error(time_index) = signal_hat + object.signal(time_index);
+                object.residual_error(time_index) = object.signal(time_index) + signal_hat;
             end
+            object.normalize_residual_error();
         end
 
         % method to get fft_point
@@ -323,6 +341,11 @@ classdef LinearPredictiveCoding < handle
             end
         end
 
+        % method to normalize modified autocorrelation
+        function normalize_modified_autocorrelation(object)
+            object.modified_autocorrelation = object.modified_autocorrelation / max(abs(object.modified_autocorrelation));
+        end
+
         % method to calculate residual_error_autocorrelation
         function calculate_modified_autocorrelation(object)
             object.modified_autocorrelation = zeros(size(object.residual_error));
@@ -331,13 +354,14 @@ classdef LinearPredictiveCoding < handle
             power_spectrum = (abs(fft_signal) .^ 2) / length(object.signal);
             autocorrelation = ifft(power_spectrum);
             object.modified_autocorrelation = autocorrelation(1 : length(object.residual_error));
+            object.normalize_modified_autocorrelation();
         end
 
         % method to calculate basic_period and basic_frequency
         function calculate_basic_period_and_basic_frequency(object)
-            [max_value, peak_point] = max(object.modified_autocorrelation);
+            [max_value, peak_point] = max(object.modified_autocorrelation(2:end));
             if max_value >= object.voicing_threshold
-                object.basic_period = peak_point / object.sample_rate;
+                object.basic_period = (peak_point + 1) / object.sample_rate;
                 object.basic_frequency = 1 / object.basic_period;
             else
                 object.basic_frequency = 0;

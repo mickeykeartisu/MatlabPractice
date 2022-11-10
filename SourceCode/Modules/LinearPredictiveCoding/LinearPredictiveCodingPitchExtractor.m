@@ -20,6 +20,7 @@ classdef LinearPredictiveCodingPitchExtractor < handle
         hop_length
         basic_frequencies
         basic_periods
+        impulse_response
     end
 
     %% ---------- methods ---------- %%
@@ -79,6 +80,7 @@ classdef LinearPredictiveCodingPitchExtractor < handle
                     throw(MException("Constructor:arguments", "arguments is not correct, please input 2, 3, 4, 5, 6 or 7 arguments."));
             end
             object.calculate_basic_periods_and_basic_frequencies();
+            object.calculate_impulse_response();
         end
 
         %% ---------- setters ---------- %%
@@ -153,6 +155,14 @@ classdef LinearPredictiveCodingPitchExtractor < handle
             object.basic_periods = basic_periods;
         end
 
+        % impulse_response setter
+        function set.impulse_response(object, impulse_response)
+            if length(impulse_response) < 1
+                throw(MException("Setter:impulse_response", "impulse_response is smaller than 1."));
+            end
+            object.impulse_response = impulse_response;
+        end
+
         %% ---------- getters ---------- %%
         % signal getter
         function signal = get.signal(object)
@@ -199,7 +209,18 @@ classdef LinearPredictiveCodingPitchExtractor < handle
             basic_periods = object.basic_periods;
         end
 
+        % impulse_response getter
+        function impulse_response = get.impulse_response(object)
+            impulse_response = object.impulse_response;
+        end
+
         %% ---------- usual method ---------- %%
+        % method to calculate impulse_response
+        function calculate_impulse_response(object)
+            object.impulse_response = zeros([floor(32 * object.sample_rate / 1000), 1]);
+            internal_status = zeros(object.order, 1);
+        end
+
         % method to calculate basic_periods and basic_frequencies
         function calculate_basic_periods_and_basic_frequencies(object)
             object.basic_frequencies = zeros(floor(length(object.signal) / (object.hop_length)), 1);
@@ -231,6 +252,7 @@ classdef LinearPredictiveCodingPitchExtractor < handle
             fprintf("hop_length : %d [sample]\n", object.hop_length);
             fprintf("basic_frequencies size : (%d, %d)\n", size(object.basic_frequencies));
             fprintf("basic_periods size : (%d, %d)\n", size(object.basic_frequencies));
+            fprintf("impulse_response size : (%d, %d)\n", size(object.impulse_response));
             fprintf("----------------------------------------------\n\n");
         end
     end
