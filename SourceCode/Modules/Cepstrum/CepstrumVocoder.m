@@ -5,6 +5,8 @@ classdef CepstrumVocoder < handle
     %       -> arguments : 
     %           ・ signal    :   monoral signal numeric array
     %           ・ sample_rate   :   sampling frequency [Hz]
+    %           ・ frame_length  :   frame length [ms]
+    %           ・ hop_length    :   shift length [ms]
     %           ・ window_mode   :   window name (default : hamming)
     %           ・ liftering_order   :   order to conduct liftering (default : 2 [ms])
     %           ・ voicing_threshold :   threshold to judge voicing or non voicing (default : 0.01)
@@ -12,8 +14,6 @@ classdef CepstrumVocoder < handle
     %           ・ repeat_number : number of convolution (default : 10)
     %           ・ basic_period_gain : gain related to voice pitch (default : 1.0)
     %   2. if you'd like to confirm properties, conduct display_properties() method
-    %   3. if you'd like to get amplitude_spectrum_dB, conduct get_amplitude_spectrum_dB() method
-    %   4. if you'd like to get amplitude_spectrum_envelope_dB, conduct get_amplitude_spectrum_envelope_dB() method
 
     %% ---------- properties ---------- %%
     properties(Access = public)
@@ -341,9 +341,9 @@ classdef CepstrumVocoder < handle
                 object.basic_frequencies(frame_index) = cepstrum.basic_frequency;
                 
                 if cepstrum.basic_frequency == 0
-                    uv_period = int64(5 * object.sample_rate / 1000);
+                    uv_period = 5;
                     uv_resp = randn(1, uv_period);
-                    uv_resp = uv_resp ./ sqrt(uv_period);
+                    uv_resp = uv_resp / sqrt(uv_period);
                     object.synthesized_signal(object.hop_length * (frame_index - 1) + 1 : object.hop_length * (frame_index - 1) + length(cepstrum.impulse_response)) ...
                     = object.synthesized_signal(object.hop_length * (frame_index - 1) + 1 : object.hop_length * (frame_index - 1) + length(cepstrum.impulse_response)) ...
                     + conv(cepstrum.impulse_response, uv_resp, 'same');

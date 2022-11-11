@@ -378,13 +378,13 @@ classdef Cepstrum < handle
         % method to get amplitude_spectrum(dB)
         function amplitude_spectrum_dB = get_amplitude_spectrum_dB(object)
             amplitude_spectrum_dB = object.amplitude_spectrum(1 : floor(object.fft_point / 2) + 1);
-            amplitude_spectrum_dB = 20 * log10(amplitude_spectrum_dB);
+            amplitude_spectrum_dB = 20 * log10(amplitude_spectrum_dB / max(amplitude_spectrum_dB));
         end
 
         % method to get amplitude_spectrum_envelope(dB)
         function amplitude_spectrum_envelope_dB = get_amplitude_spectrum_envelope_dB(object)
             amplitude_spectrum_envelope_dB = object.amplitude_spectrum_envelope(1 : floor(object.fft_point / 2) + 1);
-            amplitude_spectrum_envelope_dB = 20 * log10(amplitude_spectrum_envelope_dB);
+            amplitude_spectrum_envelope_dB = 20 * log10(amplitude_spectrum_envelope_dB / max(amplitude_spectrum_envelope_dB));
         end
 
         % method to synthesize signal
