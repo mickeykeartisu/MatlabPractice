@@ -170,9 +170,9 @@ classdef LinearPredictiveCodingVocoder < handle
             object.impulse_response = object.impulse_response / max(abs(object.impulse_response));
         end
 
-        % method to convolute  residual_error and linear_predictive_coefficient
+        % method to convolute residual_error and linear_predictive_coefficient
         function signal_element = convolute(object, residual_error_element, linear_predictive_coefficient)
-            x_t_hat = sum(object.internal_status .* - linear_predictive_coefficient(1, 2:end), "all");
+            x_t_hat = - sum(object.internal_status .* linear_predictive_coefficient(1, 2:end), "all");
             signal_element = x_t_hat + residual_error_element;
             object.internal_status(2 : end) = object.internal_status(1 : end - 1);
             object.internal_status(1) = residual_error_element;

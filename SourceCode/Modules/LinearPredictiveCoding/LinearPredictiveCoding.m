@@ -65,10 +65,10 @@ classdef LinearPredictiveCoding < handle
 
             autocorrelation_function = AutocorrelationFunction(object.signal, object.window_mode);
             autocorrelation_function.calculate_autocorrelation_with_fourier();
-            autocorrelation_function.normalize_autocorrelation();
             object.fft_point = autocorrelation_function.fft_point;
 
             partial_autocorrelation_coefficient = PartialAutocorrelationCoefficient(autocorrelation_function.autocorrelation, object.order);
+            % object.linear_predictor_coefficient = levinson(autocorrelation_function.autocorrelation, object.order);
             object.linear_predictor_coefficient = partial_autocorrelation_coefficient.linear_predictive_coefficient;
 
             object.calculate_Ai();
@@ -313,24 +313,18 @@ classdef LinearPredictiveCoding < handle
             end
         end
 
-        % method to normalize residual error
-        function normalize_residual_error(object)
-            object.residual_error = object.residual_error / max(abs(object.residual_error));
-        end
-
         % method to calculate residual_error
         function calculate_residual_error(object)
             object.residual_error = zeros(length(object.signal), 1);
-            for time_index = 1 : length(object.residual_error)
+            for time_index = 0 : length(object.residual_error) - 1
                 signal_hat = 0;
                 for order_index = 1 : object.order
-                    if time_index - order_index > 0
-                        signal_hat = signal_hat + (object.linear_predictor_coefficient(order_index + 1) * object.signal(time_index - order_index));
+                    if time_index - order_index >= 0
+                        signal_hat = signal_hat + (object.linear_predictor_coefficient(order_index + 1) * object.signal(time_index - order_index + 1));
                     end
                 end
-                object.residual_error(time_index) = object.signal(time_index) + signal_hat;
+                object.residual_error(time_index + 1) = object.signal(time_index + 1) + signal_hat;
             end
-            object.normalize_residual_error();
         end
 
         % method to get fft_point
@@ -341,20 +335,14 @@ classdef LinearPredictiveCoding < handle
             end
         end
 
-        % method to normalize modified autocorrelation
-        function normalize_modified_autocorrelation(object)
-            object.modified_autocorrelation = object.modified_autocorrelation / max(abs(object.modified_autocorrelation));
-        end
-
         % method to calculate residual_error_autocorrelation
         function calculate_modified_autocorrelation(object)
             object.modified_autocorrelation = zeros(size(object.residual_error));
             object.calculate_fft_point();
             fft_signal = fft(object.residual_error, object.fft_point);
-            power_spectrum = (abs(fft_signal) .^ 2) / length(object.signal);
+            power_spectrum = (abs(fft_signal) .^ 2);
             autocorrelation = ifft(power_spectrum);
             object.modified_autocorrelation = autocorrelation(1 : length(object.residual_error));
-            object.normalize_modified_autocorrelation();
         end
 
         % method to calculate basic_period and basic_frequency

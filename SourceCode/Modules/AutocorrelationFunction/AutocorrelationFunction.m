@@ -7,8 +7,7 @@ classdef AutocorrelationFunction < handle
     %           ・ window_mode   :   window name
     %   2. if you'd like to calculate autocorrelation, conduct calculate_autocorrelation_with_fourier() method(recomended)
     %   3. if you'd like to calculate autocorrelation, conduct calculate_autocorrelation() method(not recomended)
-    %   4. if you'd like to normalize, conduct normalize_autocorrelation() method
-    %   5. if you'd like to check properties, conduct display_properties() method
+    %   4. if you'd like to check properties, conduct display_properties() method
 
     %% ---------- properties ---------- %%
     properties(Access = public)
@@ -119,13 +118,7 @@ classdef AutocorrelationFunction < handle
             object.calculate_fft_point();
             fft_signal = fft(object.signal, object.fft_point);
             object.power_spectrum = (abs(fft_signal) .^ 2);
-            object.autocorrelation = ifft(object.power_spectrum);
-            object.autocorrelation = object.autocorrelation(1 : length(object.signal));
-        end
-
-        % method to normalize autocorrelation
-        function normalize_autocorrelation(object)
-            object.autocorrelation = object.autocorrelation / max(abs(object.autocorrelation));
+            object.autocorrelation = real(ifft(object.power_spectrum));
         end
 
         % method to display properties
