@@ -17,9 +17,9 @@ classdef LinearPredictiveCodingVocoder < handle
         sample_rate
         order
         voicing_threshold
-
         internal_status
         synthesized_signal
+        impulse_response
     end
 
     %% ---------- methods ---------- %%
@@ -55,9 +55,8 @@ classdef LinearPredictiveCodingVocoder < handle
                     throw(MException("Constructor:arguments", "arguments is not correct, please input 2, 3, 4 or 5 arguments."));
             end
 
-            object.internal_status = zeros(object.order, 1);
-            object.synthesized_signal = zeros(size(object.signal));
             object.synthesize_signal();
+            object.calculate_impulse_response();
         end
 
         %% ---------- setters ---------- %%
@@ -116,6 +115,14 @@ classdef LinearPredictiveCodingVocoder < handle
             object.sample_rate = sample_rate;
         end
 
+        % impulse_response setter
+        function set.impulse_response(object, impulse_response)
+            if length(impulse_response) < 1
+                throw(MException("Setter:impulse_response", "impulse_response is smaller than 1."));
+            end
+            object.impulse_response = impulse_response;
+        end
+
         %% ---------- getters ---------- %%
         % signal getter
         function signal = get.signal(object)
@@ -152,10 +159,20 @@ classdef LinearPredictiveCodingVocoder < handle
             sample_rate = object.sample_rate;
         end
 
+        % impulse_response getter
+        function impulse_response = get.impulse_response(object)
+            impulse_response = object.impulse_response;
+        end
+
         %% ---------- usual method ---------- %%
+        % method to normalize impulse response
+        function normalize_impulse_response(object)
+            object.impulse_response = object.impulse_response / max(abs(object.impulse_response));
+        end
+
         % method to convolute  residual_error and linear_predictive_coefficient
         function signal_element = convolute(object, residual_error_element, linear_predictive_coefficient)
-            x_t_hat = sum(object.internal_status .* -linear_predictive_coefficient(1, 2:end), "all");
+            x_t_hat = sum(object.internal_status .* - linear_predictive_coefficient(1, 2:end), "all");
             signal_element = x_t_hat + residual_error_element;
             object.internal_status(2 : end) = object.internal_status(1 : end - 1);
             object.internal_status(1) = residual_error_element;
@@ -163,6 +180,8 @@ classdef LinearPredictiveCodingVocoder < handle
 
         % method to synthesize signal
         function synthesize_signal(object)
+            object.internal_status = zeros(object.order, 1);
+            object.synthesized_signal = zeros(size(object.signal));
             lpc = LinearPredictiveCoding( ...
                 object.signal, ...
                 object.sample_rate, ...
@@ -176,6 +195,25 @@ classdef LinearPredictiveCodingVocoder < handle
             end
         end
 
+        % method to calculate impulse_response
+        function calculate_impulse_response(object)
+            object.impulse_response = zeros(size(object.signal));
+            object.internal_status = zeros(object.order, 1);
+            lpc = LinearPredictiveCoding( ...
+                object.signal, ...
+                object.sample_rate, ...
+                object.window_mode, ...
+                object.order, ...
+                object.voicing_threshold ...
+            );
+            
+            object.impulse_response(1) = object.convolute(1, lpc.linear_predictor_coefficient);
+            for signal_index = 2 : length(object.signal)
+                object.impulse_response(signal_index) = object.convolute(0, lpc.linear_predictor_coefficient);
+            end
+            object.normalize_impulse_response();
+        end
+
         % method to display properties
         function display_properties(object)
             fprintf("----------------------------------------------\n");
@@ -186,6 +224,7 @@ classdef LinearPredictiveCodingVocoder < handle
             fprintf("threshold : %f\n", object.voicing_threshold);
             fprintf("internal_status size : (%d, %d)\n", size(object.internal_status));
             fprintf("synthesized_signal size : (%d, %d)\n", size(object.synthesized_signal));
+            fprintf("impulse_response size : (%d, %d)\n", size(object.impulse_response));
             fprintf("----------------------------------------------\n\n");
         end
     end
