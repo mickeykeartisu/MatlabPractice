@@ -341,8 +341,7 @@ classdef LinearPredictiveCoding < handle
             object.calculate_fft_point();
             fft_signal = fft(object.residual_error, object.fft_point);
             power_spectrum = (abs(fft_signal) .^ 2);
-            autocorrelation = ifft(power_spectrum);
-            object.modified_autocorrelation = autocorrelation(1 : length(object.residual_error));
+            object.modified_autocorrelation = real(ifft(power_spectrum));
         end
 
         % method to calculate basic_period and basic_frequency
