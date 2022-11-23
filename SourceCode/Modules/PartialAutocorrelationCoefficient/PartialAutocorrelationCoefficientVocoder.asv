@@ -8,9 +8,9 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
     %   2. if you'd like to check properties, conduct display_properties() method
     %% ---------- properties ---------- %%
     properties(Access = public)
-        autocorrelation;
+        autocorrelation;    % required
         order;
-        output;
+        outputs;
         synthesized_signal;
         internal_status;
     end
@@ -19,18 +19,15 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
     methods
         %% ---------- default constructor ---------- %%
         function object = PartialAutocorrelationCoefficientVocoder(autocorrelation, order)
-            switch nargin
-                case 1
-                    object.autocorrelation = autocorrelation;
-                    object.order = 30;
-                case 2
-                    object.autocorrelation = autocorrelation;
-                    object.order = order;
-                otherwise
-                    throw(MException("Constructor:arguments", "arguments is not correct, input 1 or 2 arguments."));
+            object.autocorrelation = autocorrelation;   % required
+            if exist("order", "var")
+                object.order = order;
+            else
+                object.order = 30;
             end
-
+            object.synthesize_signal(1);
         end
+        
         %% ---------- setters ---------- %%
         % autocorrelation setter
         function set.autocorrelation(object, autocorrelation)
@@ -48,12 +45,12 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
             object.order = order;
         end
 
-        % output setter
-        function set.output(object, output)
-            if length(output) < 1
-                throw(MException("Setter:output", "output length is smaller than 1."));
+        % outputs setter
+        function set.outputs(object, outputs)
+            if length(outputs) < 1
+                throw(MException("Setter:outputs"));
             end
-            object.output = output;
+            object.outputs = outputs;
         end
 
         % synthesized_signal setter
@@ -83,9 +80,9 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
             order = object.order;
         end
 
-        % output getter
-        function output = get.output(object)
-            output = object.output;
+        % outputs getter
+        function outputs = get.outputs(object)
+            outputs = object.outputs;
         end
 
         % synthesized_signal getter
@@ -100,14 +97,24 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
 
         %% ---------- usual method ---------- %%
         % method to convolute partial autocorrelation coefficient and residual error
-        function convolute(object, partial_autocorrelation_coefficient_element)
-            
+        function [output_element, internal_status_element] = convolute(object, partial_autocorrelation_coefficient_element, output_element, internal_status_element)
+            output_element = output_element + (partial_autocorrelation_coefficient_element * internal_status_element);
+            internal_status_element = internal_status_element - (partial_autocorrelation_coefficient_element * output_element);
         end
 
         % method to synthesize signal
-        function synthesize_signal(object, residual_error, partial_autocorrelation_coefficient)
-            for order_index = object.order : 1
-                
+        function synthesize_signal(object, residual_error)
+            object.outputs = zeros(1, object.order);
+            object.internal_status = zeros(1, object.order);
+            object.outputs(1) = residual_error(1);
+            partial_autocorrelation_coefficient = PartialAutocorrelationCoefficient(object.autocorrelation, object.order);
+            for order_index = object.order : -1 : 1
+                k = partial_autocorrelation_coefficient.partial_autocorelation_coefficient(order_index);
+                out = object.outputs(order_index);
+                status = object.internal_status(order_index);
+                outobject.convolute(k, out, status);
+                object.internal_status(order_index + 1) = status;
+                object.outputs(order_index) = out;
             end
         end
 
@@ -119,7 +126,7 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
             fprintf("order : %d\n", object.order);
             fprintf("synthesize_signal size : (%d, %d)\n", size(object.synthesized_signal));
             fprintf("internal_status size : (%d, %d)\n", size(object.internal_status));
-            fprintf("output : %d\n", object.output);
+            fprintf("outputs size : (%d, %d)\n", size(object.outputs));
             fprintf("----------------------------------------------\n\n");
         end
     end

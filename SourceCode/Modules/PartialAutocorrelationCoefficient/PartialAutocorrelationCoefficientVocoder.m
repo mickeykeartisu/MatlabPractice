@@ -8,29 +8,28 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
     %   2. if you'd like to check properties, conduct display_properties() method
     %% ---------- properties ---------- %%
     properties(Access = public)
-        autocorrelation;
+        autocorrelation;    % required
         order;
         output;
-        synthesized_signal;
+        impulse_response;
         internal_status;
+        partial_autocorrelation_coefficient;
     end
 
     %% ---------- methods ---------- %%
     methods
         %% ---------- default constructor ---------- %%
         function object = PartialAutocorrelationCoefficientVocoder(autocorrelation, order)
-            switch nargin
-                case 1
-                    object.autocorrelation = autocorrelation;
-                    object.order = 30;
-                case 2
-                    object.autocorrelation = autocorrelation;
-                    object.order = order;
-                otherwise
-                    throw(MException("Constructor:arguments", "arguments is not correct, input 1 or 2 arguments."));
+            object.autocorrelation = autocorrelation;   % required
+            if exist("order", "var")
+                object.order = order;
+            else
+                object.order = 30;
             end
-
+            object.partial_autocorrelation_coefficient = PartialAutocorrelationCoefficient(object.autocorrelation, object.order);
+            object.calculate_impulse_response();
         end
+        
         %% ---------- setters ---------- %%
         % autocorrelation setter
         function set.autocorrelation(object, autocorrelation)
@@ -49,16 +48,16 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
         end
 
         % output setter
-        function set.output(object, output)
-            object.output = output;
+        function set.output(object, outputs)
+            object.output = outputs;
         end
 
-        % synthesized_signal setter
-        function set.synthesized_signal(object, synthesized_signal)
-            if length(synthesized_signal) < 1
-                throw(MException("Setter:synthesized_signal", "synthesized_signal size is smaller than 1."));
+        % impulse_response setter
+        function set.impulse_response(object, impulse_response)
+            if length(impulse_response) < 1
+                throw(MException("Setter:impulse_response", "impulse_response is smaller than 1."));
             end
-            object.synthesized_signal = synthesized_signal;
+            object.impulse_response = impulse_response;
         end
 
         % internal_status setter
@@ -67,6 +66,14 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
                 throw(MException("Setter:internal_status", "internal_status size is smaller than 1."));
             end
             object.internal_status = internal_status;
+        end
+
+        % partial_autocorrelation_coefficient setter
+        function set.partial_autocorrelation_coefficient(object, partial_autocorrelation_coefficient)
+            if ~isobject(partial_autocorrelation_coefficient)
+                throw(MException("Setter:partial_autocorrelation_coefficient", "input PartialAutocorrelationCoefficient instance."));
+            end
+            object.partial_autocorrelation_coefficient = partial_autocorrelation_coefficient;
         end
 
         %% ---------- getters ---------- %%
@@ -85,9 +92,9 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
             output = object.output;
         end
 
-        % synthesized_signal getter
-        function synthesized_signal = get.synthesized_signal(object)
-            synthesized_signal = object.synthesized_signal;
+        % impulse_response getter
+        function impulse_response = get.impulse_response(object)
+            impulse_response = object.impulse_response;
         end
 
         % internal_status getter
@@ -95,18 +102,44 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
             internal_status = object.internal_status;
         end
 
+        % partial_autocorrelation_coefficient getter
+        function partial_autocorrelation_coefficient = get.partial_autocorrelation_coefficient(object)
+            partial_autocorrelation_coefficient = object.partial_autocorrelation_coefficient;
+        end
+
         %% ---------- usual method ---------- %%
+        % method to normalize impulse response
+        function normalize_impulse_response(object)
+            object.impulse_response = object.impulse_response / max(abs(object.impulse_response));
+        end
+
         % method to convolute partial autocorrelation coefficient and residual error
-        function convolute(object, partial_autocorrelation_coefficient_element)
-            object.output = object.output + 
+        function convolute(object, partial_autocorrelation_coefficient, order_index)
+            object.output = object.output + (partial_autocorrelation_coefficient(order_index) * object.internal_status(order_index));
+            if order_index + 1 <= object.order
+                object.internal_status(order_index + 1) = object.internal_status(order_index) - (partial_autocorrelation_coefficient(order_index) * object.output);
+            end
         end
 
         % method to synthesize signal
-        function synthesize_signal(object, residual_error, partial_autocorrelation_coefficient)
-            object.internal_status = residual_error;
-            for order_index = object.order : 1
-                object.convolute(partial_autocorrelation_coefficient(order_index));
+        function signal = synthesize_signal(object, residual_error_element)
+            object.output = residual_error_element;
+            for order_index = object.order : -1 : 1
+                object.convolute(object.partial_autocorrelation_coefficient.partial_autocorelation_coefficient(2 : end), order_index);
             end
+            object.internal_status(1) = object.output;
+            signal = object.output;
+        end
+
+        % method to calculate impulse_response
+        function calculate_impulse_response(object)
+            object.internal_status = zeros(1, object.order);
+            object.impulse_response = zeros(size(object.autocorrelation));
+            object.impulse_response(1) = object.synthesize_signal(1);
+            for signal_index = 2 : length(object.autocorrelation)
+                object.impulse_response(signal_index) = object.synthesize_signal(0);
+            end
+            object.normalize_impulse_response();
         end
 
         % method to display properties
@@ -115,9 +148,9 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
             fprintf("- Partial AutoCorrelation Coefficient Vocoder \n");
             fprintf("autocorrelation size : (%d, %d)\n", size(object.autocorrelation));
             fprintf("order : %d\n", object.order);
-            fprintf("synthesize_signal size : (%d, %d)\n", size(object.synthesized_signal));
             fprintf("internal_status size : (%d, %d)\n", size(object.internal_status));
-            fprintf("output : %d\n", object.output);
+            fprintf("outputs size : (%d, %d)\n", size(object.output));
+            fprintf("impulse_response size : (%d, %d)\n", size(object.impulse_response));
             fprintf("----------------------------------------------\n\n");
         end
     end

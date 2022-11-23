@@ -119,6 +119,7 @@ classdef AutocorrelationFunction < handle
             fft_signal = fft(object.signal, object.fft_point);
             object.power_spectrum = (abs(fft_signal) .^ 2);
             object.autocorrelation = real(ifft(object.power_spectrum));
+            object.autocorrelation = object.autocorrelation(1 : floor(object.fft_point / 2) + 1);
         end
 
         % method to display properties
