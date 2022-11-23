@@ -78,6 +78,7 @@ classdef LinearPredictiveCoding < handle
             object.multiple_window(object.window_mode);
             object.calculate_residual_error();
             object.calculate_modified_autocorrelation();
+            object.normalize_modified_autocorrelation();
             object.calculate_basic_period_and_basic_frequency();
         end
 
@@ -342,6 +343,7 @@ classdef LinearPredictiveCoding < handle
             fft_signal = fft(object.residual_error, object.fft_point);
             power_spectrum = (abs(fft_signal) .^ 2);
             object.modified_autocorrelation = real(ifft(power_spectrum));
+            object.modified_autocorrelation = object.modified_autocorrelation(1 : floor(object.fft_point / 2) + 1);
         end
 
         % method to calculate basic_period and basic_frequency
@@ -354,6 +356,11 @@ classdef LinearPredictiveCoding < handle
                 object.basic_frequency = 0;
                 object.basic_period = 0;
             end
+        end
+
+        % method to normalize modified_aucotorrelation
+        function normalize_modified_autocorrelation(object)
+            object.modified_autocorrelation = object.modified_autocorrelation / max(abs(object.modified_autocorrelation));
         end
 
         % method to display properties

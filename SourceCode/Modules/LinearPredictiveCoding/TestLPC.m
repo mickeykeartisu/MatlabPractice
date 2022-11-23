@@ -1,39 +1,54 @@
-%% clear cache
+%% initialize environments
 clc;
 clear variables;
 
-%% open audio file
-inputFilePath = "vaiueo2d.wav";
-audioFileManipulator = AudioFileManipulator( ...
-    inputFilePath ...
-);
-audioFileManipulator.load_properties();
-audioFileManipulator.display_properties();
+%% set AudioFileManipulator class parameters
+input_file_path = "vaiueo2d.wav";
 
-%% set parameters
+%% generate AudioFileManipulator instance and confirm properties
+audio_file_manipulator = AudioFileManipulator(input_file_path);
+audio_file_manipulator.load_properties();
+audio_file_manipulator.display_properties();
+
+%% set LinearPredictiveCoding class parameters
 start_point = 3748;  % あのスタート位置
 continue_time = 32; % [ms]
-continue_point = int32(continue_time * audioFileManipulator.information.SampleRate / 1000);
-window_mode = "hamming";
-dimension = [5, 10, 20];
-fft_point = 2 ^ 10;
-threshold = 0.0001;
-max_value = 2 ^ (audioFileManipulator.information.BitsPerSample - 1) - 1;
+continue_point = int32(continue_time * audio_file_manipulator.information.SampleRate / 1000);
+
+%% set figure parameters
 hold on;
+grid on;
+title("Difference of Order relating to spectrum density");
+xlabel("Frequency [Hz]");
+ylabel("spectrum density [dB]");
 legend;
 
-for dimension_index = 1 : length(dimension)
-    %% generate LPC instance
-    lpc = LPC( ...
-        audioFileManipulator.signal(start_point : start_point + continue_point), ...
-        window_mode, ...
-        fft_point, ...
-        dimension(dimension_index), ...
-        threshold ...
-    );
-    lpc.display_properties();
-    
-    spectrum = abs(fft(lpc.epsilon, fft_point));
-    spectrum_dB = 20 * log10(spectrum ./ max(spectrum));
-    plot((1 : (fft_point / 2)) ./ (fft_point / 2) .* (audioFileManipulator.information.SampleRate / 2), spectrum_dB(1 : (fft_point / 2)), "DisplayName", "LPC " + int2str(dimension(dimension_index)) + " 次");
+%% generate LinearPredictiveCoding instance and plot spectrum density
+order_list = [5, 10, 20];
+for order_index = 1 : length(order_list)
+    lpc = LinearPredictiveCoding(audio_file_manipulator.signal(start_point : start_point + continue_point - 1), audio_file_manipulator.information.SampleRate, "hamming", order_list(order_index));
+    plot((1 : length(lpc.spectrum_density)) / length(lpc.spectrum_density) * (audio_file_manipulator.information.SampleRate / 2), lpc.get_spectrum_density_dB(), "DisplayName", "order : " + int2str(order_list(order_index)));
 end
+
+%% save result
+saveas(gcf, "D:/名城大学/研究室/演習/data/LinearPredictiveCoding/Difference_of_Order_relating_to_spectrum_density.png");
+
+%% set figure parameters
+delete(gcf);
+hold on;
+grid on;
+title("Difference of Order relating to residual error spectrum");
+xlabel("Frequency [Hz]");
+ylabel("residual error spectrum [dB]");
+legend;
+
+%% generate LinearPredictiveCoding instance and plot residual error
+for order_index = 1 : length(order_list)
+    lpc = LinearPredictiveCoding(audio_file_manipulator.signal(start_point : start_point + continue_point - 1), audio_file_manipulator.information.SampleRate, "hamming", order_list(order_index));
+    plot((1 : length(lpc.get_residual_error_spectrum_dB())) / length(lpc.get_residual_error_spectrum_dB()) * audio_file_manipulator.information.SampleRate / 2, lpc.get_residual_error_spectrum_dB(), "DisplayName", "order : " + int2str(order_list(order_index)));
+end
+
+saveas(gcf, "D:/名城大学/研究室/演習/data/LinearPredictiveCoding/Difference_of_Order_relating_to_residual_error_spectrum.png");
+
+delete(gcf);
+plot(lpc.modified_autocorrelation);

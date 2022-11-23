@@ -6,6 +6,7 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
     %           ・ autocorrelation : signal autocorrelation array
     %           ・ order : analysis order (default : 30)
     %   2. if you'd like to check properties, conduct display_properties() method
+    %   3. if you'd like to normalize impulse response, conduct normalize_impulse_response() method
     %% ---------- properties ---------- %%
     properties(Access = public)
         autocorrelation;    % required
