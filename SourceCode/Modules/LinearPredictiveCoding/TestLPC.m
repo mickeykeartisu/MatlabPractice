@@ -24,10 +24,10 @@ ylabel("spectrum density [dB]");
 legend;
 
 %% generate LinearPredictiveCoding instance and plot spectrum density
-order_list = [5, 10, 20];
+order_list = [0.24, 0.45, 0.9];
 for order_index = 1 : length(order_list)
     lpc = LinearPredictiveCoding(audio_file_manipulator.signal(start_point : start_point + continue_point - 1), audio_file_manipulator.information.SampleRate, "hamming", order_list(order_index));
-    plot((1 : length(lpc.spectrum_density)) / length(lpc.spectrum_density) * (audio_file_manipulator.information.SampleRate / 2), lpc.get_spectrum_density_dB(), "DisplayName", "order : " + int2str(order_list(order_index)));
+    plot((1 : length(lpc.spectrum_density)) / length(lpc.spectrum_density) * (audio_file_manipulator.information.SampleRate / 2), lpc.get_spectrum_density_dB(), "DisplayName", "order : " + int2str(lpc.order));
 end
 
 %% save result
@@ -43,12 +43,12 @@ ylabel("residual error spectrum [dB]");
 legend;
 
 %% generate LinearPredictiveCoding instance and plot residual error
+order_list = [0.24, 0.45, 2.29];
 for order_index = 1 : length(order_list)
     lpc = LinearPredictiveCoding(audio_file_manipulator.signal(start_point : start_point + continue_point - 1), audio_file_manipulator.information.SampleRate, "hamming", order_list(order_index));
-    plot((1 : length(lpc.get_residual_error_spectrum_dB())) / length(lpc.get_residual_error_spectrum_dB()) * audio_file_manipulator.information.SampleRate / 2, lpc.get_residual_error_spectrum_dB(), "DisplayName", "order : " + int2str(order_list(order_index)));
+    plot((1 : length(lpc.get_residual_error_spectrum_dB())) / length(lpc.get_residual_error_spectrum_dB()) * audio_file_manipulator.information.SampleRate / 2, lpc.get_residual_error_spectrum_dB(), "DisplayName", "order : " + int2str(lpc.order));
 end
 
 saveas(gcf, "D:/名城大学/研究室/演習/data/LinearPredictiveCoding/Difference_of_Order_relating_to_residual_error_spectrum.png");
-
 delete(gcf);
 plot(lpc.modified_autocorrelation);

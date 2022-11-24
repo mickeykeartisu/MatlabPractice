@@ -13,7 +13,8 @@ classdef TimeStrechedPulses < handle
             object.time_streched_pulses_signal = time_streched_pulses_signal;
             object.recorded_signal = recorded_signal;
             object.time_streched_pulses_signal_inverse = flip(object.time_streched_pulses_signal);
-            object.impulse_response = fftfilt(object.recorded_signal, object.time_streched_pulses_signal_inverse);
+            object.impulse_response = fftfilt(object.time_streched_pulses_signal, object.time_streched_pulses_signal_inverse);
+            object.normalize_impulse_response();
         end
 
         %% セッター
@@ -69,6 +70,11 @@ classdef TimeStrechedPulses < handle
         function impulse_response = get.impulse_response(object)
             impulse_response = object.impulse_response;
         end
-
+        
+        %% ---------- usual method ---------- %%
+        % method to normalize impulse response
+        function normalize_impulse_response(object)
+            object.impulse_response = object.impulse_response / max(abs(object.impulse_response));
+        end
     end
 end

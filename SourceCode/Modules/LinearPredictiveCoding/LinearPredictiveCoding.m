@@ -6,8 +6,8 @@ classdef LinearPredictiveCoding < handle
     %           ・ signal    :   audio monoral signal array
     %           ・ sample_rate   : sampling frequency [Hz]
     %           ・ window_mode  :   window name (default : hamming)
-    %           ・ order : analysis order (default : 30)
-    %           ・ voicing_threshold : threshold to judge voicing or non voicing (default : 0.0001)
+    %           ・ order : analysis order (default : 2 [ms])
+    %           ・ voicing_threshold : threshold to judge voicing or non voicing (default : 0.02)
     %   2. if you'd like to check properties, conduct display_properties() method
     %   3. if you'd like to get spectrum_density(dB), conduct get_spectrum_density_dB() method
     %   4. if you'd like to get residual_error_spectrum(dB), conduct get_residual_error_spectrum_dB() method
@@ -34,33 +34,25 @@ classdef LinearPredictiveCoding < handle
     methods
         %% ---------- default constructor ---------- %%
         function object = LinearPredictiveCoding(signal, sample_rate, window_mode, order, voicing_threshold)
-            switch nargin
-                case 2
-                    object.signal = signal;
-                    object.sample_rate = sample_rate;
-                    object.window_mode = "hamming";
-                    object.order = 30;
-                    object.voicing_threshold = 0.0001;
-                case 3
-                    object.signal = signal;
-                    object.sample_rate = sample_rate;
-                    object.window_mode = window_mode;
-                    object.order = 30;
-                    object.voicing_threshold = 0.0001;
-                case 4
-                    object.signal = signal;
-                    object.sample_rate = sample_rate;
-                    object.window_mode = window_mode;
-                    object.order = order;
-                    object.voicing_threshold = 0.0001;
-                case 5
-                    object.signal = signal;
-                    object.sample_rate = sample_rate;
-                    object.window_mode = window_mode;
-                    object.order = order;
-                    object.voicing_threshold = voicing_threshold;
-                otherwise
-                    throw(MException("Constructor:arguments", "arguments is not correct, please input 2, 3, 4 or 5 arguments."));
+            object.signal = signal;
+            object.sample_rate = sample_rate;
+
+            if exist("window_mode", "var")
+                object.window_mode = window_mode;
+            else
+                object.window_mode = "hamming";
+            end
+
+            if exist("order", "var")
+                object.order = order;
+            else
+                object.order = 2;
+            end
+
+            if exist("voicing_threshold", "var")
+                object.voicing_threshold = voicing_threshold;
+            else
+                object.voicing_threshold = 0.02;
             end
 
             autocorrelation_function = AutocorrelationFunction(object.signal, object.window_mode);
@@ -108,10 +100,10 @@ classdef LinearPredictiveCoding < handle
 
         % order setter
         function set.order(object, order)
-            if order < 1
-                throw(MException("Setter:order", "order is smaller than 1."))
+            if order < 0
+                throw(MException("Setter:order", "order is smaller than 0."))
             end
-            object.order = order;
+            object.order = int64(order * object.sample_rate / 1000);
         end
 
         % Ai setter
@@ -289,7 +281,7 @@ classdef LinearPredictiveCoding < handle
             for lamdas_index = 1 : length(lambdas)
                 sumation = 0;
                 for dimension_index = 1 : object.order
-                    sumation = sumation + (object.Ai(dimension_index + 1) * cos(dimension_index * lambdas(lamdas_index)));
+                    sumation = sumation + (object.Ai(dimension_index + 1) * cos(double(dimension_index) * lambdas(lamdas_index)));
                 end
                 object.spectrum_density(lamdas_index) = (object.squared_sigma / (2 * pi)) * (1 / (object.Ai(1) + 2 * sumation));
             end

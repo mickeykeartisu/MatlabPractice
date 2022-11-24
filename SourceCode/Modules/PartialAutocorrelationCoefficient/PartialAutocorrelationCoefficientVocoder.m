@@ -150,7 +150,7 @@ classdef PartialAutocorrelationCoefficientVocoder < handle
             fprintf("autocorrelation size : (%d, %d)\n", size(object.autocorrelation));
             fprintf("order : %d\n", object.order);
             fprintf("internal_status size : (%d, %d)\n", size(object.internal_status));
-            fprintf("outputs size : (%d, %d)\n", size(object.output));
+            fprintf("outputs : %d\n", object.output);
             fprintf("impulse_response size : (%d, %d)\n", size(object.impulse_response));
             fprintf("----------------------------------------------\n\n");
         end
