@@ -1,0 +1,168 @@
+ant:
+
+<mkdir dir="/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/distrib" />
+<mkdir dir="/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/src" />
+mcc -o StandAloneMorphing64 -W main:StandAloneMorphing64 -T link:exe -d /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/src -w enable:specified_file_mismatch -w enable:repeated_file -w enable:switch_ignored -w enable:missing_lib_sentinel -w enable:demo_license -v /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/MorphingMenu.m -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/exF0candidatesTSTRAIGHTGB.m -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/f0ExtractorGUI.fig -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/F0extractorsDefinitionList.txt -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/frequencyAnchorPointGUI.fig -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/makeMorphingContinuumGUI.fig -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/MorphingMenu.fig -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/morphingRateGUI.fig -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/STRAIGHTmanipulatorGUI.fig -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/tandemSTRAIGHTF0interface.m -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/TandemSTRAIGHThandler.fig -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/temporalAnchorGUI.fig -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/YegnaF0interface.m -a /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/YINF0interface.m
+Compiler version: 4.17 (R2012a)
+Warning: Duplicate directory name:
+/private/tmp/../../Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64.
+Processing /Applications/MATLAB_R2012a.app/toolbox/matlab/mcc.enc
+Processing /Applications/MATLAB_R2012a.app/toolbox/signal/mcc.enc
+Processing /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/f0ExtractorGUI.fig
+Processing /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/frequencyAnchorPointGUI.fig
+Processing /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/makeMorphingContinuumGUI.fig
+Processing /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/MorphingMenu.fig
+Processing /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/morphingRateGUI.fig
+Processing /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/STRAIGHTmanipulatorGUI.fig
+Processing /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/TandemSTRAIGHThandler.fig
+Processing /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/temporalAnchorGUI.fig
+Processing /Applications/MATLAB_R2012a.app/toolbox/shared/controllib/general/mcc.enc
+Processing /Applications/MATLAB_R2012a.app/toolbox/matlab/guide/guideopts.fig
+Processing /Applications/MATLAB_R2012a.app/toolbox/shared/spcuilib/mcc.enc
+Processing include files...
+2 item(s) added.
+Processing directories installed with MCR...
+The file /Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/src/mccExcludedFiles.log contains a list of functions excluded from the CTF archive.
+0 item(s) added.
+Generating MATLAB path for the compiled application...
+Created 46 path items.
+Begin validation of MEX files: Wed Apr 25 16:12:15 2012
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/buffer.mexmaci64'.
+Found MATLAB file '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/buffer.m'.
+MEX file
+'/Applications/MATLAB_R2012a.app/toolbox/signal/signal/buffer.mexmaci64'
+is valid. It contains 'mexFunction.'
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/df1filter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/df1sosfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/df1tfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/df1tsosfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/df2filter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/df2sosfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/df2tfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/df2tsosfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/dfantisymmetricfirfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/dffirfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/dffirtfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/dfsymmetricfirfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/latticeallpassfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/latticearfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/latticearmafilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/latticecafilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/latticecapcfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/latticemamaxphasefilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/latticemaminphasefilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/private/sosfiltmex.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/private/upfirdnmex.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdf1filter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdf1sosfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdf1tfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdf1tsosfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdf2filter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdf2sosfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdf2tfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdf2tsosfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdfantisymmetricfirfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdffirfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdffirtfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/sdfsymmetricfirfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/slatticeallpassfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/slatticearfilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/slatticearmafilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/slatticemamaxphasefilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/slatticemaminphasefilter.mexmaci64'.
+No conflicting MATLAB file found.
+Validating '/Applications/MATLAB_R2012a.app/toolbox/signal/signal/statespacefilter.mexmaci64'.
+No conflicting MATLAB file found.
+End validation of MEX files: Wed Apr 25 16:12:15 2012
+Warning: Adding path
+"/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64"
+to Compiler path instance.
+Parsing file "/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneSTRAIGHTbodyGUI64/MorphingMenu.m"
+????(Referenced from: "Compiler Command Line").
+Parsing file "/Applications/MATLAB_R2012a.app/toolbox/compiler/deploy/deployprint.m"
+????(Referenced from: "Compiler Command Line").
+Parsing file "/Applications/MATLAB_R2012a.app/toolbox/compiler/deploy/printdlg.m"
+????(Referenced from: "Compiler Command Line").
+Deleting 40 temporary MEX authorization files.
+Removing: '/tmp/040e8XwUXYC_16616.auth'.
+Removing: '/tmp/040e8KKDRoo_16616.auth'.
+Removing: '/tmp/040e8fEsNHl_16616.auth'.
+Removing: '/tmp/040e8N93Geb_16616.auth'.
+Removing: '/tmp/040e84CWonu_16616.auth'.
+Removing: '/tmp/040e8ynj3Rn_16616.auth'.
+Removing: '/tmp/040e8wowaDT_16616.auth'.
+Removing: '/tmp/040e8KTJu96_16616.auth'.
+Removing: '/tmp/040e8L8eWYE_16616.auth'.
+Removing: '/tmp/040e82N1282_16616.auth'.
+Removing: '/tmp/040e899d7zg_16616.auth'.
+Removing: '/tmp/040e8U4cQYz_16616.auth'.
+Removing: '/tmp/040e8prpKPY_16616.auth'.
+Removing: '/tmp/040e8o4RvfC_16616.auth'.
+Removing: '/tmp/040e8ecRa3Z_16616.auth'.
+Removing: '/tmp/040e82zkNb1_16616.auth'.
+Removing: '/tmp/040e8j0wJTf_16616.auth'.
+Removing: '/tmp/040e8Ov1V3I_16616.auth'.
+Removing: '/tmp/040e8bs4xce_16616.auth'.
+Removing: '/tmp/040e8bB994m_16616.auth'.
+Removing: '/tmp/040e837J1t7_16616.auth'.
+Removing: '/tmp/040e8lek4Ck_16616.auth'.
+Removing: '/tmp/040e8ATmita_16616.auth'.
+Removing: '/tmp/040e8X4NCNZ_16616.auth'.
+Removing: '/tmp/040e8nKXvVk_16616.auth'.
+Removing: '/tmp/040e8elekGM_16616.auth'.
+Removing: '/tmp/040e8lfdctd_16616.auth'.
+Removing: '/tmp/040e8uScoXU_16616.auth'.
+Removing: '/tmp/040e8dL3oao_16616.auth'.
+Removing: '/tmp/040e84cH56s_16616.auth'.
+Removing: '/tmp/040e8IX90wB_16616.auth'.
+Removing: '/tmp/040e8zLV7Ss_16616.auth'.
+Removing: '/tmp/040e8qPatvG_16616.auth'.
+Removing: '/tmp/040e8FWZ4E6_16616.auth'.
+Removing: '/tmp/040e8VkYe9g_16616.auth'.
+Removing: '/tmp/040e8HF6gH6_16616.auth'.
+Removing: '/tmp/040e8zsP0da_16616.auth'.
+Removing: '/tmp/040e818GqfY_16616.auth'.
+Removing: '/tmp/040e8BJRsZr_16616.auth'.
+Removing: '/tmp/040e8g978Vx_16616.auth'.
+Generating file "/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/src/readme.txt".
+Generating file "/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/src/run_StandAloneMorphing64.sh".
+copy '/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/src/readme.txt' '/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/distrib/readme.txt'
+copy '/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/src/run_StandAloneMorphing64.sh' '/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/distrib/run_StandAloneMorphing64.sh'
+copy '/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/src/StandAloneMorphing64.app' '/Users/kawahara/m-file/ANNYSTRAIGHT/testWorkSpace/StandAloneMorphing64/distrib/StandAloneMorphing64.app'

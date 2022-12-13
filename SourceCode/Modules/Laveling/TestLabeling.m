@@ -2,7 +2,7 @@
 clc;
 clear variables;
 
-for file_index = 11 : 15
+for file_index = 1 : 50
     %% set AudioFileManipulator class parameters
     input_file_path = "D:/名城大学/研究室/研究/データセット/4モーラ単語リスト セット 1/4モーラ単語リスト noMask/set1_noMask_word " + int2str(file_index) + ".wav";
     
@@ -20,7 +20,7 @@ for file_index = 11 : 15
     plot((1 : length(audio_file_manipulator.signal)) / audio_file_manipulator.sample_rate, audio_file_manipulator.signal);
     spplotlabel(label, 'r:');
     font_size = 14;
-    xlim([1.7 2.6]);
+    xlim([1.65 2.6]);
     title("set1 no mask word " + int2str(file_index) + " signal with label", "FontSize", font_size);
     xlabel("Time [s]", "FontSize", font_size);
     output_file_path = "D:/名城大学/研究室/研究/データセット/4モーラ単語リスト プロット 1/4モーラ単語リスト noMask LabeledSignal/set1_noMask_word " + int2str(file_index) + ".png";
@@ -38,7 +38,7 @@ for file_index = 11 : 15
     spectrogram(audio_file_manipulator.signal, hamming(frame_length), frame_length - hop_length, fft_point, audio_file_manipulator.sample_rate, 'yaxis');
     colormap jet;
     spplotlabel(label, 'r:');
-    xlim([1.7 2.6]);
+    xlim([1.65 2.6]);
     title("set1 no mask word " + int2str(file_index) + " spectrogram with label", "FontSize", font_size);
     xlabel("Time [s]", "FontSize", font_size);
     ylabel("Frequency [kHz]", "FontSize", font_size);
@@ -61,7 +61,7 @@ for file_index = 11 : 15
     label = sploadlabel(label_file_path, 'sec');
     plot((1 : length(audio_file_manipulator.signal)) / audio_file_manipulator.sample_rate, audio_file_manipulator.signal);
     spplotlabel(label, 'r:');
-    xlim([1.7 2.6]);
+    xlim([1.65 2.6]);
     title("set1 with mask word " + int2str(file_index) + " signal with label", "FontSize", font_size);
     xlabel("Time [s]");
     output_file_path = "D:/名城大学/研究室/研究/データセット/4モーラ単語リスト プロット 1/4モーラ単語リスト withMask LabeledSignal/set1_withMask_word " + int2str(file_index) + ".png";
@@ -79,7 +79,7 @@ for file_index = 11 : 15
     spectrogram(audio_file_manipulator.signal, hamming(frame_length), frame_length - hop_length, fft_point, audio_file_manipulator.sample_rate, 'yaxis');
     colormap jet;
     spplotlabel(label, 'r:');
-    xlim([1.7 2.6]);
+    xlim([1.65 2.6]);
     title("set1 with mask word " + int2str(file_index) + " spectrogram with label", "FontSize", font_size);
     xlabel("Time [s]", "FontSize", font_size);
     ylabel("Frequency [kHz]", "FontSize", font_size);
