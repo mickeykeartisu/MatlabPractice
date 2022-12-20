@@ -66,8 +66,8 @@ for mask_index = 1 : length(mask_list)
                         gain = length(spectrogram.aperiodicity_structure.temporalPositions) / spectrogram.aperiodicity_structure.temporalPositions(end);
                         start_frame = int32(spectrogram.label(phoneme_index).time * gain);
                         end_frame = int32(spectrogram.label(phoneme_index + 1).time * gain);
-                        column_size = size(spectrogram.spectrum_parameters.spectrogramSTRAIGHT, 2);      
-                        long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogramSTRAIGHT(start_frame : end_frame), 2) ./ column_size;
+                        column_size = size(spectrogram.spectrum_parameters.spectrogramSTRAIGHT, 2);
+                        long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogramSTRAIGHT(:, start_frame : end_frame), 2) / column_size;
                         phoneme_list_spectrum_noMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) = phoneme_list_spectrum_noMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) + long_term_average_spectrum';
                     end
                 elseif spectrogram_list(spectrogram_index) == "World"
@@ -76,7 +76,7 @@ for mask_index = 1 : length(mask_list)
                         start_frame = int32(spectrogram.label(phoneme_index).time * gain);
                         end_frame = int32(spectrogram.label(phoneme_index + 1).time * gain);
                         column_size = size(spectrogram.spectrum_parameters.spectrogram, 2);      
-                        long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogram(start_frame : end_frame), 2) ./ column_size;
+                        long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogram(:, start_frame : end_frame), 2) ./ column_size;
                         phoneme_list_spectrum_noMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) = phoneme_list_spectrum_noMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) + long_term_average_spectrum';
                     end
                 end
@@ -87,8 +87,8 @@ for mask_index = 1 : length(mask_list)
                         start_frame = int32(spectrogram.label(phoneme_index).time * gain);
                         end_frame = int32(spectrogram.label(phoneme_index + 1).time * gain);
                         column_size = size(spectrogram.spectrum_parameters.spectrogramSTRAIGHT, 2);      
-                        long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogramSTRAIGHT(start_frame : end_frame), 2) ./ column_size;
-                        phoneme_list_spectrum_withMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) = phoneme_list_spectrum_noMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) + long_term_average_spectrum';
+                        long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogramSTRAIGHT(:, start_frame : end_frame), 2) ./ column_size;
+                        phoneme_list_spectrum_withMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) = phoneme_list_spectrum_withMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) + long_term_average_spectrum';
                     end
                 elseif spectrogram_list(spectrogram_index) == "World"
                     for phoneme_index = 1 : (length(spectrogram.label) - 1)
@@ -96,8 +96,8 @@ for mask_index = 1 : length(mask_list)
                         start_frame = int32(spectrogram.label(phoneme_index).time * gain);
                         end_frame = int32(spectrogram.label(phoneme_index + 1).time * gain);
                         column_size = size(spectrogram.spectrum_parameters.spectrogram, 2);      
-                        long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogram(start_frame : end_frame), 2) ./ column_size;
-                        phoneme_list_spectrum_withMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) = phoneme_list_spectrum_noMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) + long_term_average_spectrum';
+                        long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogram(:, start_frame : end_frame), 2) ./ column_size;
+                        phoneme_list_spectrum_withMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) = phoneme_list_spectrum_withMask(calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme), :) + long_term_average_spectrum';
                     end
                 end
             end
@@ -108,16 +108,17 @@ end
 keys_list = keys(phoneme_counter);
 for mask_index = 1 : length(mask_list)
     for phoneme_index = 1 : length(keys_list)
+        sample_rate = spectrogram.sample_rate;
         if mask_list(mask_index) == "noMask"
-            phoneme_long_term_average_spectrum = phoneme_list_spectrum_noMask(calculate_dictionary_index(phoneme_counter, keys_list(phoneme_index)), :) ./ calculate_dictionary_index(phoneme_counter, keys_list(phoneme_index));
+            phoneme_long_term_average_spectrum = phoneme_list_spectrum_noMask(calculate_dictionary_index(phoneme_counter, keys_list(phoneme_index)), :) / (phoneme_counter(keys_list(phoneme_index)) / 2);
             phoneme = keys_list(phoneme_index);
-            phoneme_long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/phoneme/dictionary_index" + int2str(phoneme_index) + ".mat";
-            save(phoneme_long_term_average_spectrum_path, "phoneme_long_term_average_spectrum", "phoneme");
+            phoneme_long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/phoneme/phoneme_index " + int2str(phoneme_index) + ".mat";
+            save(phoneme_long_term_average_spectrum_path, "phoneme_long_term_average_spectrum", "phoneme", "sample_rate");
         elseif mask_list(mask_index) == "withMask"
-            phoneme_long_term_average_spectrum = phoneme_list_spectrum_withMask(calculate_dictionary_index(phoneme_counter, keys_list(phoneme_index)), :) ./ calculate_dictionary_index(phoneme_counter, keys_list(phoneme_index));
+            phoneme_long_term_average_spectrum = phoneme_list_spectrum_withMask(calculate_dictionary_index(phoneme_counter, keys_list(phoneme_index)), :) / (phoneme_counter(keys_list(phoneme_index)) / 2);
             phoneme = keys_list(phoneme_index);
-            phoneme_long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/phoneme/dictionary_index" + int2str(phoneme_index) + ".mat";
-            save(phoneme_long_term_average_spectrum_path, "phoneme_long_term_average_spectrum", "phoneme");
+            phoneme_long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/phoneme/phoneme_index " + int2str(phoneme_index) + ".mat";
+            save(phoneme_long_term_average_spectrum_path, "phoneme_long_term_average_spectrum", "phoneme", "sample_rate");
         end
     end
 end

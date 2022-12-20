@@ -7,7 +7,7 @@ mask_list = ["noMask", "withMask"];
 spectrogram_list = ["TandemStraight", "World"];
 for mask_index = 1 : length(mask_list)
     for spectrogram_index = 1 : length(spectrogram_list)
-        for file_index = 1 : 50
+        for file_index = 1 : 1
             %% load dynamic feature World mat file
             long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/" + spectrogram_list(spectrogram_index) + "/word " + int2str(file_index) + ".mat";
             spectrogram = load(long_term_average_spectrum_path);
@@ -38,7 +38,7 @@ end
 
 %% plot comparison Tandem Straight to World
 for mask_index = 1 : length(mask_list)
-    for file_index = 1 : 50
+    for file_index = 1 : 1
         window = figure;
         window.WindowState = "maximized";
         grid on;
@@ -70,7 +70,7 @@ end
 
 %% plot comparison noMask withMask
 for spectrogram_index = 1 : length(spectrogram_list)
-    for file_index = 1 : 50
+    for file_index = 1 : 1
         window = figure;
         window.WindowState = "maximized";
         grid on;
@@ -101,6 +101,39 @@ for spectrogram_index = 1 : length(spectrogram_list)
 end
 
 %% plot comparison noMask withMask all average
+for spectrogram_index = 1 : length(spectrogram_list)
+    window = figure;
+    window.WindowState = "maximized";
+    grid on;
+    hold on;
+    legend;
+    font_size = 18;
+    title("Set1\_word all LTAS Comparison " + spectrogram_list(spectrogram_index), "FontSize", font_size);
+    xlabel("frequency [Hz]", "FontSize", font_size);
+    ylabel("long term average spectrum Magnitude [dB]", "FontSize", font_size);
+    for mask_index = 1 : length(mask_list)
+        long_term_average_spectrum_mean = 0;
+        for file_index = 1 : 50
+            %% load dynamic feature World mat file
+            long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/" + spectrogram_list(spectrogram_index) + "/word " + int2str(file_index) + ".mat";
+            spectrogram = load(long_term_average_spectrum_path);
+            spectrogram = spectrogram.spectrogram;
+            long_term_average_spectrum_mean = long_term_average_spectrum_mean + spectrogram.long_term_average_spectrum;
+        end
+        %% plot long term average spectrum
+        fftl = (length(spectrogram.long_term_average_spectrum)-1)*2;
+        x = ((0:fftl/2)*spectrogram.sample_rate/fftl)';
+        ltas_decibel = 10 * log10(long_term_average_spectrum_mean / file_index);
+        plot(x, ltas_decibel, "DisplayName", mask_list(mask_index));
+    end
+    xlim([0 floor(spectrogram.sample_rate / 4)]);
+    ylim([-60 10]);
+    long_term_average_spectrum_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/LongTermAverageSpectrum/" + spectrogram_list(spectrogram_index) + "/word all.png";
+    saveas(gcf, long_term_average_spectrum_png_path);
+    delete(gcf);
+end
+
+%% plot comparison noMask withMask all average
 window = figure;
 window.WindowState = "maximized";
 grid on;
@@ -124,12 +157,44 @@ for mask_index = 1 : length(mask_list)
     %% plot long term average spectrum
     fftl = (length(spectrogram.long_term_average_spectrum)-1)*2;
     x = ((0:fftl/2)*spectrogram.sample_rate/fftl)';
-    ltas_decibel = 10 * log10(long_term_average_spectrum_mean / (2 * file_index));
+    ltas_decibel = 10 * log10(long_term_average_spectrum_mean / file_index);
     plot(x, ltas_decibel, "DisplayName", mask_list(mask_index));
 end
 xlim([0 floor(spectrogram.sample_rate / 4)]);
 ylim([-60 10]);
-long_term_average_spectrum_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/LongTermAverageSpectrum/all/word all_mean.png";
+long_term_average_spectrum_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/LongTermAverageSpectrum/all/word_all_mean.png";
 saveas(gcf, long_term_average_spectrum_png_path);
 delete(gcf);
 
+%% plot phoneme long term average spectrum
+phoneme_counter_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/phoneme_dictionary/phoneme_dictionary.mat";
+phoneme_counter = load(phoneme_counter_path);
+phoneme_counter = phoneme_counter.phoneme_counter;
+phoneme_keys = keys(phoneme_counter);
+for phoneme_index = 1 : length(phoneme_keys)
+    window = figure;
+    window.WindowState = "maximized";
+    grid on;
+    hold on;
+    legend;
+    font_size = 18;
+    xlabel("frequency [Hz]", "FontSize", font_size);
+    ylabel("long term average spectrum Magnitude [dB]", "FontSize", font_size);
+    for mask_index = 1 : length(mask_list)
+        long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/phoneme/phoneme_index " + int2str(phoneme_index) + ".mat";
+        long_term_average_spectrum = load(long_term_average_spectrum_path);
+        phoneme_long_term_average_spectrum = long_term_average_spectrum.phoneme_long_term_average_spectrum;
+        
+        %% plot long term average spectrum
+        fftl = (length(phoneme_long_term_average_spectrum)-1)*2;
+        x = ((0:fftl/2)*long_term_average_spectrum.sample_rate/fftl)';
+        ltas_decibel = 10 * log10(phoneme_long_term_average_spectrum);
+        plot(x, ltas_decibel, "DisplayName", mask_list(mask_index));
+    end
+    title("Set1\_phoneme " + long_term_average_spectrum.phoneme + " LTAS Comparison", "FontSize", font_size);
+    xlim([0 floor(spectrogram.sample_rate / 4)]);
+    ylim([-80 2]);
+    phoneme_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/LongTermAverageSpectrum/phoneme/phoneme_index " + int2str(phoneme_index) + ".png";
+    saveas(gcf, phoneme_png_path);
+    delete(gcf);
+end
