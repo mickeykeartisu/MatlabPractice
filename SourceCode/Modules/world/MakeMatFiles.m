@@ -5,7 +5,7 @@ clear variables;
 %% plot all 4 mora word list audio files
 mask_list = ["noMask", "withMask"];
 for mask_index = 1 : length(mask_list)
-    for file_index = 1 : 50
+    for file_index = 1 : 1
         %% load noMask audio file and confirm properties
         audio_file_path = "D:/名城大学/研究室/研究/Sources/AudioData/4モーラ単語リスト/Set 1/" + mask_list(mask_index) + "/set1_" + mask_list(mask_index) + "_word " + int2str(file_index) + ".wav";
         audio_file_manipulator = AudioFileManipulator(audio_file_path);

@@ -1,0 +1,39 @@
+%% initialize environments
+clc;
+clear variables;
+
+%% plot all 4 mora word list audio files
+band_list = [
+    "めどれみ", ...
+    "シャンディタウン", ...
+    "ビート・ビート・ビート", ...
+    "太陽の破片", ...
+    "すばる", ...
+    "ささめき", ...
+    "ジュリアナイト", ...
+    "しっくすなっつ", ...
+    "チョコミン党", ...
+    "ラボラトリア", ...
+    "ジュークボックス", ...
+    "バリバリ" ...
+];
+
+for band_list_index = 1 : length(band_list)
+    %% load noMask audio file and confirm properties
+    audio_file_path = "D:/アカペラ/はもねぷ 2022 冬 音源/audio_files/" + band_list(band_list_index) + ".wav";
+    audio_file_manipulator = AudioFileManipulator(audio_file_path);
+    audio_file_manipulator.load_properties();
+    audio_file_manipulator.normalize();
+    audio_file_manipulator.display_properties();
+
+    %% calculate basic frequencies, power spectrogram, aperiodicity parameters and save to mat file
+    mat_file_path = "D:/アカペラ/はもねぷ 2022 冬 音源/mat_files/world_spectrogram/" + band_list(band_list_index) + ".mat";
+    source_information = Harvest(audio_file_manipulator.signal, audio_file_manipulator.sample_rate);
+    CheapTrick_option.fft_size = (2 ^ 12);
+    spectrum_parameters = CheapTrick(audio_file_manipulator.signal, audio_file_manipulator.sample_rate, source_information, CheapTrick_option);
+    D4C_option.fft_size = CheapTrick_option.fft_size;
+    aperiodicity_structure = D4C(audio_file_manipulator.signal, audio_file_manipulator.sample_rate, source_information, D4C_option);
+    signal = audio_file_manipulator.signal;
+    sample_rate = audio_file_manipulator.sample_rate;
+    save(mat_file_path, "signal", "sample_rate", "source_information", "aperiodicity_structure", "spectrum_parameters");
+end

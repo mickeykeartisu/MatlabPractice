@@ -21,6 +21,7 @@ for mask_index = 1 : length(mask_list)
             end
             spectrogram_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/" + spectrogram_list(spectrogram_index) + "/word " + int2str(file_index) + ".mat";
             save(spectrogram_path, "spectrogram");
+            disp(spectrogram_path);
         end
     end
 end

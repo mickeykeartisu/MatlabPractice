@@ -16,7 +16,7 @@ if method==0,
     disp('パワー成分・スペクトル成分を含む');
 elseif method==1
     norm = (20/log(10)) .* sqrt( 2.*sum(dcep(2:end,:).^2, 1) );
-    disp('スペクトルの変動特性のみに着目');
+    % disp('スペクトルの変動特性のみに着目');
 else
     norm = (20/log(10)) .* sqrt( dcep(1,:).^2 );
     disp('パワー成分');
