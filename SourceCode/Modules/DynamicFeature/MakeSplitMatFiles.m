@@ -38,11 +38,7 @@ for mask_index = 1 : length(mask_list)
                 fft_point = 2 ^ 11;
                 cepstrum = getSt2Cep(split_spectrogram, liftering_order);
                 delta_cepstrum = getDeltaCep4(cepstrum, delta_cepstrum_prameters);
-                delta_cepstrum = abs(fft(delta_cepstrum, fft_point));
-                lower_limit_point = int64(length(delta_cepstrum) * band_candidate_range(band_candidate_index, 1) / (spectrogram.sample_rate / 2));
-                upper_limit_point = int64(length(delta_cepstrum) * band_candidate_range(band_candidate_index, 2) / (spectrogram.sample_rate / 2));
-                delta_cepstrum = delta_cepstrum(lower_limit_point : upper_limit_point, :);
-                delta_cepstrum = ifft(delta_cepstrum);
+                delta_cepstrum = calculate_split_band_delta_cepstrum(delta_cepstrum, band_candidate_range(band_candidate_index, :), fft_point, spectrogram.sample_rate);
                 delta_cepstrum = trunc2(delta_cepstrum, round(delta_cepstrum_prameters.msdceptime / 2), 2, 'both', 1, nan);
                 dynamic_feature = getDcepNorm_ver2(delta_cepstrum, 1);
         
@@ -60,7 +56,7 @@ for mask_index = 1 : length(mask_list)
         
         %% save dynamic_feature related to each phoneme
         for key_index = 1 : length(phoneme_keys)
-            split_dynamic_feature.split_dynamic_feature_list = split_dynamic_feature_list(key_index, :) ./ (phoneme_counter(phoneme_keys(key_index)) / 2);
+            split_dynamic_feature.split_dynamic_feature_list = split_dynamic_feature_list(key_index, :) ./ (phoneme_counter(phoneme_keys(key_index)) / 4);
             split_dynamic_feature.band_candidate = band_candidate;
             split_dynamic_feature.band_candidate_range = band_candidate_range;
             split_dynamic_feature.counter = int64((phoneme_counter(phoneme_keys(key_index)) / 4));

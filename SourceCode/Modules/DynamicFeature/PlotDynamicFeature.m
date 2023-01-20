@@ -34,7 +34,9 @@ for mask_index = 1 : length(mask_list)
             grid on;
             set(gca, "FontSize", font_size);
             dynamic_feature_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/DynamicFeature/" + spectrogram_list(spectrogram_index) + "/word " + int2str(file_index);
+            dynamic_feature_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/DynamicFeature/" + spectrogram_list(spectrogram_index) + "/word " + int2str(file_index) + ".emf";
             print(dynamic_feature_png_path, "-dpng");
+            saveas(gcf, dynamic_feature_emf_path);
             delete(gcf);
         end
     end

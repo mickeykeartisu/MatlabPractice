@@ -12,17 +12,19 @@ for mask_index = 1 : length(mask_list)
     
         %% plot noMask audio waveform
         window = figure;
-        waveform_plot_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/Waveform/word " + int2str(file_index) + ".png";
+        waveform_plot_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/Waveform/word " + int2str(file_index) + ".png";
+        waveform_plot_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/Waveform/word " + int2str(file_index) + ".emf";
         time_axis = (1 : length(spectrogram.signal)) / spectrogram.sample_rate;
-        font_size = 18;
+        font_size = 24;
         plot(time_axis, spectrogram.signal, "DisplayName", mask_list(mask_index));
         window.WindowState = "maximized";
         title("Set1\_" + mask_list(mask_index) + "\_word " + int2str(file_index) + " waveform", "FontSize", font_size);
-        xlabel("time [s]", "FontSize", font_size);
-        ylabel("linear amplitude", "FontSize", font_size);
+        xlabel("Time [s]", "FontSize", font_size);
+        ylabel("Linear amplitude", "FontSize", font_size);
         xlim([1.65 2.65]);
         spplotlabel(spectrogram.label, "r:");
-        saveas(gcf, waveform_plot_path);
+        saveas(gcf, waveform_plot_png_path);
+        saveas(gcf, waveform_plot_emf_path);
         delete(gcf);
     end
 end

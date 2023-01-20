@@ -24,7 +24,7 @@ for phoneme_index = 1 : length(phoneme_keys)
     base_bar(1).BaseValue = -100;
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_1);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
     title("Sub-band magnitude of long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
@@ -33,7 +33,9 @@ for phoneme_index = 1 : length(phoneme_keys)
     grid on;
     set(gca, "FontSize", font_size);
     output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 
@@ -43,15 +45,17 @@ for phoneme_index = 1 : length(phoneme_keys)
     bar(diff_splited_long_term_dB');
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_1);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
-    title("Difference of sub-band magnitude concerning long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
+    title("Difference of sub-band magnitude LTAS of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
     hold on;
     grid on;
     set(gca, "FontSize", font_size);
     output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 end
@@ -72,7 +76,7 @@ for phoneme_index = 1 : length(phoneme_keys)
     base_bar(1).BaseValue = -100;
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_2);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
     title("Sub-band magnitude of long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
@@ -80,8 +84,10 @@ for phoneme_index = 1 : length(phoneme_keys)
     legend(mask_list);
     grid on;
     set(gca, "FontSize", font_size);
-    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/phoneme " + int2str(phoneme_index) + ".png";
+    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 
@@ -91,15 +97,17 @@ for phoneme_index = 1 : length(phoneme_keys)
     bar(diff_splited_long_term_dB');
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_2);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
-    title("Difference of sub-band magnitude concerning long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
+    title("Difference of sub-band magnitude LTAS of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
     hold on;
     grid on;
     set(gca, "FontSize", font_size);
     output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 end
@@ -120,7 +128,7 @@ for phoneme_index = 1 : length(phoneme_keys)
     base_bar(1).BaseValue = -100;
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_3);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
     title("Sub-band magnitude of long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
@@ -128,8 +136,10 @@ for phoneme_index = 1 : length(phoneme_keys)
     legend(mask_list);
     grid on;
     set(gca, "FontSize", font_size);
-    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/phoneme " + int2str(phoneme_index) + ".png";
+    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 
@@ -139,15 +149,17 @@ for phoneme_index = 1 : length(phoneme_keys)
     bar(diff_splited_long_term_dB');
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_3);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
-    title("Difference of sub-band magnitude concerning long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
+    title("Difference of sub-band magnitude LTAS of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
     hold on;
     grid on;
     set(gca, "FontSize", font_size);
     output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 end
@@ -168,7 +180,7 @@ for phoneme_index = 1 : length(phoneme_keys)
     base_bar(1).BaseValue = -100;
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_4);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
     title("Sub-band magnitude of long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
@@ -176,8 +188,10 @@ for phoneme_index = 1 : length(phoneme_keys)
     legend(mask_list);
     grid on;
     set(gca, "FontSize", font_size);
-    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/phoneme " + int2str(phoneme_index) + ".png";
+    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 
@@ -187,15 +201,17 @@ for phoneme_index = 1 : length(phoneme_keys)
     bar(diff_splited_long_term_dB');
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_4);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
-    title("Difference of sub-band magnitude concerning long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
+    title("Difference of sub-band magnitude LTAS of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
     hold on;
     grid on;
     set(gca, "FontSize", font_size);
     output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 end
@@ -216,7 +232,7 @@ for phoneme_index = 1 : length(phoneme_keys)
     base_bar(1).BaseValue = -100;
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_5);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
     title("Sub-band magnitude of long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
@@ -224,8 +240,10 @@ for phoneme_index = 1 : length(phoneme_keys)
     legend(mask_list);
     grid on;
     set(gca, "FontSize", font_size);
-    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/phoneme " + int2str(phoneme_index) + ".png";
+    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_5/candidate_5/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_5/candidate_5/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 
@@ -235,15 +253,17 @@ for phoneme_index = 1 : length(phoneme_keys)
     bar(diff_splited_long_term_dB');
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_5);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
-    title("Difference of sub-band magnitude concerning long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
+    title("Difference of sub-band magnitude LTAS of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
     hold on;
     grid on;
     set(gca, "FontSize", font_size);
     output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/candidate_5/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/candidate_5/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 end
@@ -264,7 +284,7 @@ for phoneme_index = 1 : length(phoneme_keys)
     base_bar(1).BaseValue = -100;
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_6);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
     title("Sub-band magnitude of long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
@@ -272,8 +292,10 @@ for phoneme_index = 1 : length(phoneme_keys)
     legend(mask_list);
     grid on;
     set(gca, "FontSize", font_size);
-    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/phoneme " + int2str(phoneme_index) + ".png";
+    output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_5/candidate_6/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/SplitedLongTermAverageSpectrum/band_5/candidate_6/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 
@@ -283,15 +305,17 @@ for phoneme_index = 1 : length(phoneme_keys)
     bar(diff_splited_long_term_dB');
     xticks(1 : size(splited_long_term, 2));
     xticklabels(splited_long_term_mat_file.band_candidate_6);
-    font_size = 16;
+    font_size = 24;
     xlabel("Frequency [Hz]", "FontSize", font_size);
     ylabel("Magnitude of long-term average spectrum [dB]", "FontSize", font_size);
-    title("Difference of sub-band magnitude concerning long-term average spectrum of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
+    title("Difference of sub-band magnitude LTAS of phoneme /" + phoneme_keys(phoneme_index) + "/", "FontSize", font_size);
     hold on;
     grid on;
     set(gca, "FontSize", font_size);
     output_png_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/candidate_6/phoneme " + int2str(phoneme_index) + ".png";
+    output_emf_path = "D:/名城大学/研究室/研究/Outputs/4モーラ単語リスト/Set1/both/DifferenceOfSplittedLTAS/band_" + length(splited_long_term) + "/candidate_6/phoneme " + int2str(phoneme_index) + ".emf";
     saveas(gcf, output_png_path);
+    saveas(gcf, output_emf_path);
     disp(output_png_path);
     delete(gcf);
 end

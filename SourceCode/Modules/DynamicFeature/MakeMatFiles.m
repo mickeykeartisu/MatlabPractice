@@ -14,7 +14,7 @@ for mask_index = 1 : length(mask_list)
             delta_cepstrum_prameters.msdceptime = 50;
             liftering_order = delta_cepstrum_prameters.msdceptime - 5;
             if spectrogram_list(spectrogram_index) == "TandemStraight"
-                cepstrum = getSt2Cep(spectrogram.spectrum_parameters.spectrogramSTRAIGHT, liftering_order);
+                cepstrum = getSt2Cep(spectrogram.spectrum_parameters.spectrogramTANDEM, liftering_order);
             else
                 cepstrum = getSt2Cep(spectrogram.spectrum_parameters.spectrogram, liftering_order);
             end
