@@ -13,6 +13,7 @@ function delta_cepstrum = calculate_split_band_delta_cepstrum(delta_cepstrum, ba
     delta_cepstrum(1 : (lower_limit_point - 1), :) = 0;
     delta_cepstrum((upper_limit_point + 1) : end, :) = 0;
     delta_cepstrum(int64(fft_point / 2) + 2 : end, :) = flip(delta_cepstrum(2 : int64(fft_point / 2), :), 1);
+    % delta_cepstrum = real(ifft(delta_cepstrum, quefrency_length));
     delta_cepstrum = real(ifft(delta_cepstrum));
-    delta_cepstrum = delta_cepstrum(1 : int64(fft_point / 2 + 1), :);
+    % delta_cepstrum = delta_cepstrum(1 : int64(quefrency_length), :);
 end

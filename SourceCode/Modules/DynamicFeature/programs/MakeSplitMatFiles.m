@@ -39,8 +39,7 @@ for mask_index = 1 : length(mask_list)
                 delta_cepstrum = getDeltaCep4(cepstrum, delta_cepstrum_prameters);
                 delta_cepstrum = calculate_split_band_delta_cepstrum(delta_cepstrum, band_candidate_range(band_candidate_index, :), fft_point, spectrogram.sample_rate);
                 delta_cepstrum = trunc2(delta_cepstrum, round(delta_cepstrum_prameters.msdceptime / 2), 2, 'both', 1, nan);
-                dynamic_feature = (log(10)/20) .* getDcepNorm_ver2(delta_cepstrum, 1);
-                delete(gcf);
+                dynamic_feature = getDcepNorm_ver2(delta_cepstrum, 1);
         
                 %% add dynamic feature mean related to each phoneme
                 for phoneme_index = 1 : length(spectrogram.label) - 1
@@ -50,9 +49,6 @@ for mask_index = 1 : length(mask_list)
         
                     key_index = calculate_dictionary_index(phoneme_counter, spectrogram.label(phoneme_index).phoneme);
                     split_dynamic_feature_list(mask_index, spectrogram_index, key_index, band_candidate_index) = split_dynamic_feature_list(mask_index, spectrogram_index, key_index, band_candidate_index) + mean(dynamic_feature(lower_limit_point : upper_limit_point));
-                    if (20/log(10)) * mean(dynamic_feature(lower_limit_point : upper_limit_point)) > 0.8
-                        disp(phoneme_keys(phoneme_index) + " : " + int2str(band_candidate(band_candidate_index)) + " : " + (20/log(10)) * mean(dynamic_feature(lower_limit_point : upper_limit_point)));
-                    end
                 end
             end
         end
