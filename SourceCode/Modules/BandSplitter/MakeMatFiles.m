@@ -31,7 +31,7 @@ for mask_index = 1 : length(mask_list)
     for phoneme_index = 1 : length(phoneme_keys)
         long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/phoneme/phoneme_index " + int2str(phoneme_index) + ".mat";
         long_term_average_spectrum = load(long_term_average_spectrum_path);
-        phoneme_long_term_average_spectrum = long_term_average_spectrum.phoneme_long_term_average_spectrum;
+        phoneme_long_term_average_spectrum = long_term_average_spectrum.phoneme_long_term_average_spectrum_total;
 
         for band_candidate_index = 1 : size(band_candidate_1, 2)
             lower_limit_point = int64(size(phoneme_long_term_average_spectrum, 2) * band_candidate_range_1(band_candidate_index, 1) / 24000);
@@ -40,7 +40,7 @@ for mask_index = 1 : length(mask_list)
         end
 
         splited_long_term = mean_frequency_list;
-        splited_long_term_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/SpliteLongTermAverageSpectrum/band_" + length(band_candidate_1) + "/phoneme " + int2str(phoneme_index) + ".mat";
+        splited_long_term_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/SubBandLongTermAverageSpectrum/band_" + length(band_candidate_1) + "/phoneme " + int2str(phoneme_index) + ".mat";
         save(splited_long_term_path, "splited_long_term", "band_candidate_1", "band_candidate_range_1");
         disp(splited_long_term_path);
     end
@@ -50,7 +50,7 @@ end
 mean_frequency_list = zeros(size(band_candidate_2, 2), 1);
 for mask_index = 1 : length(mask_list)
     for phoneme_index = 1 : length(phoneme_keys)
-        long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/phoneme/phoneme_index " + int2str(phoneme_index) + ".mat";
+        long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/SubBandLongTermAverageSpectrum/phoneme/phoneme_index " + int2str(phoneme_index) + ".mat";
         long_term_average_spectrum = load(long_term_average_spectrum_path);
         phoneme_long_term_average_spectrum = long_term_average_spectrum.phoneme_long_term_average_spectrum;
 

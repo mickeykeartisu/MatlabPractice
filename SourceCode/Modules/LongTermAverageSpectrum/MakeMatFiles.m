@@ -2,9 +2,11 @@
 clc;
 clear variables;
 
-%% make long term average spectrum mat file related to each spectrogram method
+%% 長時間平均スペクトルを算出する際のパラメータ
 mask_list = ["noMask", "withMask"];
 spectrogram_list = ["WORLD", "TANDEM STRAIGHT"];
+
+%% WORLDとTANDEM STRAIGHTに関するそれぞれの長時間平均スペクトルを算出してmatファイルに保存する
 for mask_index = 1 : length(mask_list)
     for spectrogram_index = 1 : length(spectrogram_list)
         for file_index = 1 : 1
@@ -20,6 +22,7 @@ for mask_index = 1 : length(mask_list)
                 column_size = size(spectrogram.spectrum_parameters.spectrogram, 2);
                 spectrogram.long_term_average_spectrum = sum(spectrogram.spectrum_parameters.spectrogram, 2) ./ column_size;
             end
+
             spectrogram_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/" + spectrogram_list(spectrogram_index) + "/word " + int2str(file_index) + ".mat";
             save(spectrogram_path, "spectrogram", "spectrogram_path");
             disp(spectrogram_path);
@@ -27,7 +30,7 @@ for mask_index = 1 : length(mask_list)
     end
 end
 
-%% make long term average spectrum dictionary and count related to phoneme
+%% 音素の出現回数を保持する辞書を作成するしてmatファイルに保存する
 phoneme_counter = dictionary("a", 0);
 for mask_index = 1 : length(mask_list)
     for spectrogram_index = 1 : length(spectrogram_list)
@@ -56,9 +59,8 @@ phoneme_dictionary_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4�
 save(phoneme_dictionary_path, "phoneme_counter", "phoneme_dictionary_path");
 disp(phoneme_counter);
 
-%% calculate phoneme long term average spectrum
+%% 音素ごとの長時間平均スペクトルを求める
 phoneme_long_term_average_spectrum_list = zeros(length(mask_list), length(spectrogram_list), length(keys_list), length(spectrogram.long_term_average_spectrum));
-disp(phoneme_long_term_average_spectrum_list);
 reshape_size = size(phoneme_long_term_average_spectrum_list(1, 1, 1, :));
 for mask_index = 1 : length(mask_list)
     for spectrogram_index = 1 : length(spectrogram_list)
@@ -94,16 +96,16 @@ for mask_index = 1 : length(mask_list)
     end
 end
 
-%% save long term average spectrum related to each phoneme
+%% 音素ごとの長時間平均スペクトルをmatファイルに保存する
 for mask_index = 1 : length(mask_list)
-    for spectrogram_index = 1 : length(spectrogram_list)
-        for phoneme_index = 1 : length(keys_list)
-            sample_rate = spectrogram.sample_rate;
-            phoneme_long_term_average_spectrum = phoneme_long_term_average_spectrum_list(mask_index, spectrogram_index, phoneme_index, :) ./ phoneme_counter(keys_list(phoneme_index));
-            phoneme = keys_list(phoneme_index);
-            phoneme_long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/" + spectrogram_list(spectrogram_index) + "/phoneme/phoneme_index " + int2str(phoneme_index) + ".mat";
-            save(phoneme_long_term_average_spectrum_path, "phoneme_long_term_average_spectrum", "phoneme", "sample_rate", "phoneme_index");
-        end
+    for phoneme_index = 1 : length(keys_list)
+        sample_rate = spectrogram.sample_rate;
+        long_term_average_spectrum_phoneme = phoneme_long_term_average_spectrum_list(mask_index, 1, phoneme_index, :);
+        phoneme_long_term_average_spectrum_list = squeeze(phoneme_long_term_average_spectrum_list);
+        phoneme = keys_list(phoneme_index);
+        phoneme_long_term_average_spectrum_path = "D:/名城大学/研究室/研究/Sources/MatFiles/4モーラ単語リスト/Set1/" + mask_list(mask_index) + "/LongTermAverageSpectrum/phoneme/phoneme_index " + int2str(phoneme_index) + ".mat";
+        save(phoneme_long_term_average_spectrum_path, "long_term_average_spectrum_phoneme", "phoneme", "sample_rate", "phoneme_index");
+        disp(phoneme_long_term_average_spectrum_path);
     end
 end
 
